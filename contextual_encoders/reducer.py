@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from enum import Enum
 from sklearn.manifold import MDS
 
 
@@ -13,7 +12,7 @@ class Reducer(ABC):
         pass
 
 
-class ReducerType(Enum):
+class ReducerType:
     MultidimensionalScaling = 'mds'
 
     @staticmethod
@@ -23,7 +22,7 @@ class ReducerType(Enum):
         if 'metric' not in kwargs:
             kwargs['metric'] = True
 
-        if reducer_type == ReducerType.MultidimensionalScaling.value:
+        if reducer_type == ReducerType.MultidimensionalScaling:
             return MultidimensionalScalingReducer(n_components=kwargs['n_components'], metric=kwargs['metric'])
         else:
             raise ValueError(f'A reducer of type {reducer_type} does not exist.')

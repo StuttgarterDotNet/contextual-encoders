@@ -1,5 +1,4 @@
 import numpy as np
-from enum import Enum
 from abc import ABC, abstractmethod
 
 
@@ -10,7 +9,7 @@ class Aggregator(ABC):
         pass
 
 
-class AggregatorType(Enum):
+class AggregatorType:
 
     Mean = 'mean',
     Median = 'median'

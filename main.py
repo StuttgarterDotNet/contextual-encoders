@@ -77,7 +77,7 @@ def main_boston():
 
     rad_comparer = WuPalmerComparer(rad)
 
-    encoder = ContextualEncoder([rad_comparer], cols=['RAD'])
+    encoder = ContextualEncoder([rad_comparer], ['RAD'], 'id')
     data_points = encoder.transform(x)
 
     print_data_points(data_points, 'Data points')
@@ -142,4 +142,4 @@ def main_old():
 
 
 if __name__ == "__main__":
-    main_boston()
+    main()

@@ -1,6 +1,5 @@
-import math
+import numpy as np
 from abc import ABC, abstractmethod
-from enum import Enum
 
 
 class Inverter(ABC):
@@ -10,7 +9,7 @@ class Inverter(ABC):
         pass
 
 
-class InverterType(Enum):
+class InverterType:
 
     Identity = 'id'
     Linear = 'lin'
@@ -66,8 +65,8 @@ class SqrtInverter(Inverter):
         self.max_similarity = max_similarity
 
     def invert(self, similarity_matrix):
-        norm = math.sqrt(2.0) * self.max_similarity
-        return (1.0 / norm) * math.sqrt(norm - 2.0 * similarity_matrix)
+        norm = 2.0 * self.max_similarity
+        return (1.0 / np.sqrt(norm)) * np.sqrt(norm - 2.0 * similarity_matrix)
 
 
 class ExponentialInverter(Inverter):
@@ -76,7 +75,7 @@ class ExponentialInverter(Inverter):
         self.max_similarity = max_similarity
 
     def invert(self, similarity_matrix):
-        return math.exp(-similarity_matrix / self.max_similarity)
+        return np.exp(-similarity_matrix / self.max_similarity)
 
 
 class GaussInverter(Inverter):
@@ -85,7 +84,7 @@ class GaussInverter(Inverter):
         self.max_similarity = max_similarity
 
     def invert(self, similarity_matrix):
-        return math.exp(-math.pow(similarity_matrix / self.max_similarity, 2))
+        return np.exp(-np.power(similarity_matrix / self.max_similarity, 2))
 
 
 class HyperbolicInverter(Inverter):
@@ -95,7 +94,7 @@ class HyperbolicInverter(Inverter):
         self.degree = degree
 
     def invert(self, similarity_matrix):
-        return 1.0 / (1.0 + pow(similarity_matrix / self.max_similarity, self.degree))
+        return 1.0 / (1.0 + np.power(similarity_matrix / self.max_similarity, self.degree))
 
 
 class CosineInverter(Inverter):
@@ -104,4 +103,4 @@ class CosineInverter(Inverter):
         self.max_similarity = max_similarity
 
     def invert(self, similarity_matrix):
-        return math.cos((math.pi * similarity_matrix)/(2.0 * self.max_similarity))
+        return np.cos((np.pi * similarity_matrix) / (2.0 * self.max_similarity))

@@ -27,7 +27,7 @@ class Gatherer(ABC):
         return self._gather(first, second)
 
 
-class GathererType(Enum):
+class GathererType:
 
     Identity = 'id',
     First = 'first',
