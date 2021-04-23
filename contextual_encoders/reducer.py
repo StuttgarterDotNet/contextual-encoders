@@ -23,7 +23,7 @@ class ReducerType(Enum):
         if 'metric' not in kwargs:
             kwargs['metric'] = True
 
-        if reducer_type == ReducerType.MultidimensionalScaling:
+        if reducer_type == ReducerType.MultidimensionalScaling.value:
             return MultidimensionalScalingReducer(n_components=kwargs['n_components'], metric=kwargs['metric'])
         else:
             raise ValueError(f'A reducer of type {reducer_type} does not exist.')
@@ -37,3 +37,6 @@ class MultidimensionalScalingReducer(Reducer):
 
     def reduce(self, matrix):
         return self.__mds.fit_transform(matrix)
+
+    def get_stress(self):
+        return self.__mds.stress_
