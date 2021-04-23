@@ -1,12 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from contextual_encoders.aggregator import MeanAggregator, MedianAggregator
-from contextual_encoders.computer import SimilarityMatrixComputer
-from contextual_encoders.encoder import ContextualEncoder
-from contextual_encoders.reducer import MultidimensionalScalingReducer
-from contextual_encoders.context import TreeContext
-from contextual_encoders.comparer import WuPalmerComparer
-from sklearn.datasets import load_boston
+from contextual_encoders import TreeContext, WuPalmerComparer, ContextualEncoder
 
 
 def print_matrix(matrix, title):
