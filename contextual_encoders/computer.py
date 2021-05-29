@@ -3,7 +3,6 @@ from .gatherer import GathererType
 
 
 class SimilarityMatrixComputer:
-
     def __init__(self, comparer, gatherer, separator_token):
         self.__comparer = comparer
         self.__separator_token = separator_token

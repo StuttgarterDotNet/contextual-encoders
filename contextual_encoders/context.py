@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 
 class TreeContext:
-
     def __init__(self, name):
         self.__name = name
         self.__graph = nx.DiGraph()
@@ -18,7 +17,7 @@ class TreeContext:
             self.__graph.add_node(child)
         if not self.__graph.has_edge(parent, child):
             self.__graph.add_edge(parent, child, weight=weight)
-        elif self.__graph.get_edge_data(parent, child)['weight'] is not weight:
+        elif self.__graph.get_edge_data(parent, child)["weight"] is not weight:
             self.__graph.remove_edge(parent, child)
             self.__graph.add_edge(parent, child, weight=weight)
 

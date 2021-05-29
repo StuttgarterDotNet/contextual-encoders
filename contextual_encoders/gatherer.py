@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
 
+Identity = "id"
+First = "first"
+SymMaxMean = "smm"
+
 
 class Gatherer(ABC):
-
     def __init__(self):
         self._comparer = None
 
@@ -15,7 +18,7 @@ class Gatherer(ABC):
 
     def gather(self, first, second):
         if self._comparer is None:
-            raise ValueError('No comparer is specified')
+            raise ValueError("No comparer is specified")
 
         # if we don't have lists, convert them to list
         if not isinstance(first, list):
@@ -27,31 +30,24 @@ class Gatherer(ABC):
 
 
 class GathererType:
-
-    Identity = 'id',
-    First = 'first',
-    SymMaxMean = 'smm'
-
     @staticmethod
     def create(gatherer_type):
-        if gatherer_type == GathererType.Identity:
+        if gatherer_type == Identity:
             return IdentityGatherer()
-        elif gatherer_type == GathererType.First:
+        elif gatherer_type == First:
             return FirstValueGatherer()
-        elif gatherer_type == GathererType.SymMaxMean:
+        elif gatherer_type == SymMaxMean:
             return SymMaxMeanGatherer()
         else:
-            raise ValueError(f'A gatherer of type {gatherer_type} does not exist.')
+            raise ValueError(f"A gatherer of type {gatherer_type} does not exist.")
 
 
 class IdentityGatherer(Gatherer):
-
     def _gather(self, first, second):
         return self._comparer.compare(first, second)
 
 
 class FirstValueGatherer(Gatherer):
-
     def _gather(self, first, second):
         first = first[0]
         second = second[0]
@@ -60,7 +56,6 @@ class FirstValueGatherer(Gatherer):
 
 
 class SymMaxMeanGatherer(Gatherer):
-
     def _gather(self, first, second):
         sum1 = 0.0
         sum2 = 0.0

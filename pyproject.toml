@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "contextual-encoders"
+version = "0.1.0"
+description = "A library of sklearn compatible contextual categorical variable encoders"
+authors = ["Daniel Fink"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+numpy = "^1.19"
+scikit-learn = "^0.24"
+networkx = "^2.5"
+black = "^21.5b1"
+
+[tool.poetry.dev-dependencies]
+numpy = "^1.19"
+scikit-learn = "^0.24"
+networkx = "^2.5"
+matplotlib = "^3.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

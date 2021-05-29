@@ -1,57 +1,55 @@
 import numpy as np
 from abc import ABC, abstractmethod
 
+Identity = "id"
+Linear = "lin"
+Sqrt = "sqrt"
+Exponential = "exp"
+Gauss = "gauss"
+Hyperbolic = "hyp"
+Cosine = "cos"
+
 
 class Inverter(ABC):
-
     @abstractmethod
     def invert(self, similarity_matrix):
         pass
 
 
 class InverterType:
-
-    Identity = 'id'
-    Linear = 'lin'
-    Sqrt = 'sqrt'
-    Exponential = 'exp'
-    Gauss = 'gauss'
-    Hyperbolic = 'hyp'
-    Cosine = 'cos'
-
     @staticmethod
     def create(inverter_type, **kwargs):
-        if 'max_similarity' not in kwargs:
-            kwargs['max_similarity'] = 1.0
-        if 'degree' not in kwargs:
-            kwargs['degree'] = 1
+        if "max_similarity" not in kwargs:
+            kwargs["max_similarity"] = 1.0
+        if "degree" not in kwargs:
+            kwargs["degree"] = 1
 
-        if inverter_type == InverterType.Identity:
+        if inverter_type == Identity:
             return IdentityInverter()
-        elif inverter_type == InverterType.Linear:
-            return LinearInverter(max_similarity=kwargs['max_similarity'])
-        elif inverter_type == InverterType.Sqrt:
-            return SqrtInverter(max_similarity=kwargs['max_similarity'])
-        elif inverter_type == InverterType.Exponential:
-            return ExponentialInverter(max_similarity=kwargs['max_similarity'])
-        elif inverter_type == InverterType.Gauss:
-            return GaussInverter(max_similarity=kwargs['max_similarity'])
-        elif inverter_type == InverterType.Hyperbolic:
-            return HyperbolicInverter(max_similarity=kwargs['max_similarity'], degree=kwargs['degree'])
-        elif inverter_type == InverterType.Cosine:
-            return CosineInverter(max_similarity=kwargs['max_similarity'])
+        elif inverter_type == Linear:
+            return LinearInverter(max_similarity=kwargs["max_similarity"])
+        elif inverter_type == Sqrt:
+            return SqrtInverter(max_similarity=kwargs["max_similarity"])
+        elif inverter_type == Exponential:
+            return ExponentialInverter(max_similarity=kwargs["max_similarity"])
+        elif inverter_type == Gauss:
+            return GaussInverter(max_similarity=kwargs["max_similarity"])
+        elif inverter_type == Hyperbolic:
+            return HyperbolicInverter(
+                max_similarity=kwargs["max_similarity"], degree=kwargs["degree"]
+            )
+        elif inverter_type == Cosine:
+            return CosineInverter(max_similarity=kwargs["max_similarity"])
         else:
-            raise ValueError(f'An inverter of type {inverter_type} does not exist.')
+            raise ValueError(f"An inverter of type {inverter_type} does not exist.")
 
 
 class IdentityInverter(Inverter):
-
     def invert(self, similarity_matrix):
         return similarity_matrix
 
 
 class LinearInverter(Inverter):
-
     def __init__(self, max_similarity):
         self.max_similarity = max_similarity
 
@@ -60,7 +58,6 @@ class LinearInverter(Inverter):
 
 
 class SqrtInverter(Inverter):
-
     def __init__(self, max_similarity):
         self.max_similarity = max_similarity
 
@@ -70,7 +67,6 @@ class SqrtInverter(Inverter):
 
 
 class ExponentialInverter(Inverter):
-
     def __init__(self, max_similarity):
         self.max_similarity = max_similarity
 
@@ -79,7 +75,6 @@ class ExponentialInverter(Inverter):
 
 
 class GaussInverter(Inverter):
-
     def __init__(self, max_similarity):
         self.max_similarity = max_similarity
 
@@ -88,17 +83,17 @@ class GaussInverter(Inverter):
 
 
 class HyperbolicInverter(Inverter):
-
     def __init__(self, max_similarity, degree):
         self.max_similarity = max_similarity
         self.degree = degree
 
     def invert(self, similarity_matrix):
-        return 1.0 / (1.0 + np.power(similarity_matrix / self.max_similarity, self.degree))
+        return 1.0 / (
+            1.0 + np.power(similarity_matrix / self.max_similarity, self.degree)
+        )
 
 
 class CosineInverter(Inverter):
-
     def __init__(self, max_similarity):
         self.max_similarity = max_similarity
 

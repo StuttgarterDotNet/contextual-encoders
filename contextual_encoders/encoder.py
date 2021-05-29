@@ -7,17 +7,18 @@ from .reducer import ReducerType
 
 
 class ContextualEncoder(BaseEstimator, TransformerMixin):
-
-    def __init__(self,
-                 comparer,
-                 cols=None,
-                 inverter=InverterType.Linear,
-                 gatherer=GathererType.SymMaxMean,
-                 aggregator=AggregatorType.Mean,
-                 reducer=ReducerType.MultidimensionalScaling,
-                 **kwargs):
-        if 'separator_token' not in kwargs:
-            kwargs['separator_token'] = ','
+    def __init__(
+        self,
+        comparer,
+        cols=None,
+        inverter=InverterType.Linear,
+        gatherer=GathererType.SymMaxMean,
+        aggregator=AggregatorType.Mean,
+        reducer=ReducerType.MultidimensionalScaling,
+        **kwargs
+    ):
+        if "separator_token" not in kwargs:
+            kwargs["separator_token"] = ","
 
         self.__computer = []
         self.__cols = cols
@@ -27,7 +28,11 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         self.__matrix = None
 
         for i in range(0, len(comparer)):
-            self.__computer.append(SimilarityMatrixComputer(comparer[i], gatherer, kwargs['separator_token']))
+            self.__computer.append(
+                SimilarityMatrixComputer(
+                    comparer[i], gatherer, kwargs["separator_token"]
+                )
+            )
 
         return
 

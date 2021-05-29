@@ -5,7 +5,6 @@ from abc import ABC, abstractmethod
 
 
 class Comparer(ABC):
-
     def __init__(self, symmetric, multiple_values, verbose=False):
         self.__symmetric = symmetric
         self.__multiple_values = multiple_values
@@ -32,9 +31,9 @@ class Comparer(ABC):
 
         # if we have list or tuple, convert to comma separated string
         if isinstance(first_string, list) or isinstance(first_string, tuple):
-            first_string = ','.join(first_string)
+            first_string = ",".join(first_string)
         if isinstance(second_string, list) or isinstance(second_string, tuple):
-            second_string = ','.join(second_string)
+            second_string = ",".join(second_string)
 
         # if we don't have a string now, convert to hash-string then tuple
         if not isinstance(first_string, str):
@@ -69,27 +68,28 @@ class Comparer(ABC):
         return self.__multiple_values
 
     def export_to_file(self, path):
-        with open(path, 'w') as file:
+        with open(path, "w") as file:
             json.dump(self.__cache, file, indent=4)
 
     def import_from_file(self, path):
-        with open(path, 'r') as file:
+        with open(path, "r") as file:
             self.__cache = json.load(file)
 
 
 class WuPalmerComparer(Comparer):
-
     def __init__(self, context, offset=0.0, verbose=False):
         super().__init__(symmetric=True, multiple_values=False, verbose=verbose)
         self.__context = context
 
         if isinstance(offset, str):
-            if offset == 'depth':
+            if offset == "depth":
                 graph = self.__context.get_tree()
                 depth = len(dag_longest_path(graph))
                 self.__offset = 1.0 / depth
             else:
-                raise ValueError('The value ' + str(offset) + ' is not valid for "offset".')
+                raise ValueError(
+                    "The value " + str(offset) + ' is not valid for "offset".'
+                )
         else:
             self.__offset = offset + 0.0
 
@@ -101,15 +101,26 @@ class WuPalmerComparer(Comparer):
         ud_graph = d_graph.to_undirected()
 
         # get lowest reachable node from both
-        lca = nx.algorithms.lowest_common_ancestors.lowest_common_ancestor(d_graph, first, second)
+        lca = nx.algorithms.lowest_common_ancestors.lowest_common_ancestor(
+            d_graph, first, second
+        )
 
         # get root of graph
         root = self.__context.get_root()
 
         # count edges
-        d1 = nx.algorithms.shortest_paths.generic.shortest_path_length(ud_graph, first, lca)
-        d2 = nx.algorithms.shortest_paths.generic.shortest_path_length(ud_graph, second, lca)
-        d3 = nx.algorithms.shortest_paths.generic.shortest_path_length(ud_graph, lca, root) + self.__offset
+        d1 = nx.algorithms.shortest_paths.generic.shortest_path_length(
+            ud_graph, first, lca
+        )
+        d2 = nx.algorithms.shortest_paths.generic.shortest_path_length(
+            ud_graph, second, lca
+        )
+        d3 = (
+            nx.algorithms.shortest_paths.generic.shortest_path_length(
+                ud_graph, lca, root
+            )
+            + self.__offset
+        )
 
         # if first and second, both is the root
         if d1 + d2 + 2.0 * d3 == 0.0:
