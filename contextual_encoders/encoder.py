@@ -1,7 +1,7 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 from .aggregator import AggregatorType, Mean
 from .computer import SimilarityMatrixComputer
-from .gatherer import GathererType, SymMaxMean
+from .gatherer import SymMaxMean
 from .inverter import InverterType, Linear
 from .reducer import ReducerType, MultidimensionalScaling
 
