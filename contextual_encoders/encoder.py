@@ -1,9 +1,9 @@
 from sklearn.base import BaseEstimator, TransformerMixin
-from .aggregator import AggregatorType
+from .aggregator import AggregatorType, Mean
 from .computer import SimilarityMatrixComputer
-from .gatherer import GathererType
-from .inverter import InverterType
-from .reducer import ReducerType
+from .gatherer import GathererType, SymMaxMean
+from .inverter import InverterType, Linear
+from .reducer import ReducerType, MultidimensionalScaling
 
 
 class ContextualEncoder(BaseEstimator, TransformerMixin):
@@ -11,10 +11,10 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         self,
         comparer,
         cols=None,
-        inverter=InverterType.Linear,
-        gatherer=GathererType.SymMaxMean,
-        aggregator=AggregatorType.Mean,
-        reducer=ReducerType.MultidimensionalScaling,
+        inverter=Linear,
+        gatherer=SymMaxMean,
+        aggregator=Mean,
+        reducer=MultidimensionalScaling,
         **kwargs
     ):
         if "separator_token" not in kwargs:
