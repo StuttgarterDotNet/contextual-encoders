@@ -1,9 +1,3 @@
-"""
-.. module:: contextual_encoders
-  :synopsis:
-  :platform:
-"""
-
 from contextual_encoders.aggregator import (
     Aggregator,
     AggregatorType,
