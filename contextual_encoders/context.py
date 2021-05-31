@@ -1,15 +1,40 @@
+from abc import ABC, abstractmethod
 import networkx as nx
+import json
 import matplotlib.pyplot as plt
 
 
-class TreeContext:
+class Context(ABC):
     def __init__(self, name):
-        self.__name = name
+        self._name = name
+
+    @abstractmethod
+    def export_to_file(self, path):
+        pass
+
+    @abstractmethod
+    def import_from_file(self, path):
+        pass
+
+
+class TreeContext(Context):
+    def __init__(self, name):
+        super().__init__(name)
         self.__graph = nx.DiGraph()
+
+    def export_to_file(self, path):
+        with open(path, "w") as file:
+            file.write(json.dumps(nx.readwrite.json_graph.node_link_data(self.__graph)))
+        return
+
+    def import_from_file(self, path):
+        with open(path, "r") as file:
+            self.__graph = nx.readwrite.json_graph.node_link_data(json.load(file))
+        return
 
     def add_concept(self, child, parent=None, weight=1.0):
         if parent is None:
-            parent = self.__name
+            parent = self._name
 
         if not self.__graph.has_node(parent):
             self.__graph.add_node(parent)
@@ -25,7 +50,7 @@ class TreeContext:
         return self.__graph
 
     def get_root(self):
-        return self.__name
+        return self._name
 
     def draw(self):
         nx.draw(self.__graph)

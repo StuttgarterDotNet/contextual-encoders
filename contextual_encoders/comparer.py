@@ -70,15 +70,18 @@ class Comparer(ABC):
     def export_to_file(self, path):
         with open(path, "w") as file:
             json.dump(self.__cache, file, indent=4)
+        return
 
     def import_from_file(self, path):
         with open(path, "r") as file:
             self.__cache = json.load(file)
+        return
 
 
 class WuPalmerComparer(Comparer):
     def __init__(self, context, offset=0.0, verbose=False):
         super().__init__(symmetric=True, multiple_values=False, verbose=verbose)
+
         self.__context = context
 
         if isinstance(offset, str):
