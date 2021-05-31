@@ -1,5 +1,5 @@
 import numpy as np
-from .gatherer import GathererType
+from .gatherer import GathererType, Identity
 
 
 class SimilarityMatrixComputer:
@@ -8,7 +8,7 @@ class SimilarityMatrixComputer:
         self.__separator_token = separator_token
 
         if self.__comparer.can_handle_multiple_values():
-            self.__gatherer = GathererType.create(GathererType.Identity)
+            self.__gatherer = GathererType.create(Identity)
         else:
             self.__gatherer = GathererType.create(gatherer)
 
