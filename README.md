@@ -18,7 +18,9 @@ This package uses Poetry ([documentation](https://python-poetry.org/docs/)).
 Contextual variables are numerical or categorical variables, that underlie a certain context or relationship.
 Examples are the days of the week, that have a hidden graph structure:
 
+<p align="center">
 <img src="./docs/source/_static/Weekdays.svg" alt="">
+</p>
 
 When encoding these categorical variables with a simple encoding strategy such as <em>One-Hot-Encoding</em>, the hidden structure will be neglected.
 However, when the context can be specified, this additional information can be put it into the learning procedure to increase the performance of the learning model.
