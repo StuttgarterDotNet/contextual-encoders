@@ -1,9 +1,11 @@
 from sklearn.base import BaseEstimator, TransformerMixin
+from .comparer import Comparer
 from .aggregator import AggregatorType, Mean
 from .computer import SimilarityMatrixComputer
 from .gatherer import SymMaxMean
 from .inverter import InverterType, Linear
 from .reducer import ReducerType, MultidimensionalScaling
+from .data_utils import DataUtils
 
 
 class ContextualEncoder(BaseEstimator, TransformerMixin):
@@ -27,6 +29,9 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         self.__reducer = ReducerType.create(reducer, **kwargs)
         self.__matrix = None
 
+        if isinstance(comparer, Comparer):
+            comparer = [comparer]
+
         for i in range(0, len(comparer)):
             self.__computer.append(
                 SimilarityMatrixComputer(
@@ -39,24 +44,24 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
     def infer_columns(self, x):
         if self.__cols is not None:
             return self.__cols
+        elif len(x) == 0:
+            self.__cols = []
+            return []
+        else:
+            self.__cols = DataUtils.get_non_float_columns(x)
 
-        cols = []
-        for i in range(0, x.shape[1]):
-            if isinstance(x[i, 0], str):
-                cols.append(i)
-
-        self.__cols = cols
-        return cols
+        return self.__cols
 
     def fit(self, x, y=None):
         return self
 
     def transform(self, x):
         matrices = []
-        self.__cols = self.infer_columns(x)
+        x_df = DataUtils.ensure_pandas_dataframe(x)
+        self.__cols = self.infer_columns(x_df)
 
-        for i in self.__cols:
-            matrix = self.__computer[i].compute(x[:, i])
+        for col in self.__cols:
+            matrix = self.__computer[col].compute(x_df[col])
             inverted_matrix = self.__inverter.invert(matrix)
             matrices.append(inverted_matrix)
 

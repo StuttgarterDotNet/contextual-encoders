@@ -10,6 +10,10 @@ The documentation can be found here: [ReadTheDocs](https://contextual-encoders.r
 
 This package uses Poetry ([documentation](https://python-poetry.org/docs/)).
 
+## Basic Usage
+
+
+
 ## What are contextual variables?
 Contextual variables are numerical or categorical variables, that underlie a certain context or relationship.
 Examples are the days of the week, that have a hidden graph structure:
@@ -17,11 +21,11 @@ Examples are the days of the week, that have a hidden graph structure:
 <img src="./docs/source/_static/Weekdays.svg" alt="">
 
 When encoding these categorical variables with a simple encoding strategy such as <em>One-Hot-Encoding</em>, the hidden structure will be neglected.
-However, when the context can be specified, this additional information can be put it into our learning procedure to increase the performance of the learning model.
+However, when the context can be specified, this additional information can be put it into the learning procedure to increase the performance of the learning model.
 This is, where Contextual Encoders come into place.
 
 ## Principle
-The step of encoding contextual variables is split up into three sub-steps:
+The step of encoding contextual variables is split up into four sub-steps:
 
 1) Define the context
 2) Define the comparer
@@ -32,7 +36,7 @@ Depending on the techniques that uses the encoding, step 4 can be optional.
 For example, [Agglomerative Clustering](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html) 
 techniques do not require euclidean vectors, they can use the distance matrix directly.
 
-So far, build-in support for graph-based context is provided.
+So far, build-in support for tree-based context is provided.
 
 ## Notice
 The [Preprocessing](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing) module from scikit-learn offers multiple encoders for categorical variables.
