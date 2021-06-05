@@ -1,15 +1,21 @@
 from contextual_encoders.aggregator import (
     Aggregator,
-    AggregatorType,
+    AggregatorFactory,
     MeanAggregator,
     MedianAggregator,
     MaxAggregator,
     MinAggregator,
 )
-from contextual_encoders.comparer import Comparer, WuPalmerComparer
+from contextual_encoders.measure import (
+    Measure,
+    DissimilarityMeasure,
+    SimilarityMeasure,
+    WuPalmer,
+    PathLengthMeasure,
+)
 from contextual_encoders.google_comparer import GoogleComparer
 from contextual_encoders.computer import SimilarityMatrixComputer
-from contextual_encoders.context import TreeContext
+from contextual_encoders.context import TreeContext, GraphContext, GraphBasedContext
 from contextual_encoders.encoder import ContextualEncoder
 from contextual_encoders.gatherer import (
     Gatherer,
@@ -21,12 +27,9 @@ from contextual_encoders.gatherer import (
 from contextual_encoders.inverter import (
     Inverter,
     InverterType,
-    IdentityInverter,
     LinearInverter,
     SqrtInverter,
     ExponentialInverter,
-    GaussInverter,
-    HyperbolicInverter,
     CosineInverter,
 )
 from contextual_encoders.reducer import (

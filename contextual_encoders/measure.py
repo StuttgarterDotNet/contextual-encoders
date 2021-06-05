@@ -4,7 +4,7 @@ from networkx.algorithms.dag import dag_longest_path
 from abc import ABC, abstractmethod
 
 
-class Comparer(ABC):
+class Measure(ABC):
     def __init__(self, symmetric, multiple_values, verbose=False):
         self.__symmetric = symmetric
         self.__multiple_values = multiple_values
@@ -50,6 +50,8 @@ class Comparer(ABC):
             print(f'Add "{cache_key}" to cache of "{type(self).__name__}".')
         self.__cache[cache_key] = value
 
+        return
+
     def __read_from_cache(self, first, second):
         cache_key = self.__generate_cache_key(first, second)
         reverse_cache_key = self.__generate_cache_key(second, first)
@@ -70,15 +72,31 @@ class Comparer(ABC):
     def export_to_file(self, path):
         with open(path, "w") as file:
             json.dump(self.__cache, file, indent=4)
+
         return
 
     def import_from_file(self, path):
         with open(path, "r") as file:
             self.__cache = json.load(file)
+
         return
 
 
-class WuPalmerComparer(Comparer):
+class SimilarityMeasure(Measure, ABC):
+    def __init__(self, symmetric, multiple_values, verbose=False):
+        super().__init__(
+            symmetric=symmetric, multiple_values=multiple_values, verbose=verbose
+        )
+
+
+class DissimilarityMeasure(Measure, ABC):
+    def __init__(self, symmetric, multiple_values, verbose=False):
+        super().__init__(
+            symmetric=symmetric, multiple_values=multiple_values, verbose=verbose
+        )
+
+
+class WuPalmer(SimilarityMeasure):
     def __init__(self, context, offset=0.0, verbose=False):
         super().__init__(symmetric=True, multiple_values=False, verbose=verbose)
 
@@ -95,6 +113,8 @@ class WuPalmerComparer(Comparer):
                 )
         else:
             self.__offset = offset + 0.0
+
+        return
 
     def _compare(self, first, second):
         # get directed graph
@@ -130,3 +150,17 @@ class WuPalmerComparer(Comparer):
             return 0.0
 
         return 2.0 * d3 / (d1 + d2 + 2.0 * d3)
+
+
+class PathLengthMeasure(SimilarityMeasure):
+    def __init__(self, context, verbose=False):
+        super().__init__(symmetric=True, multiple_values=False, verbose=verbose)
+        self.__context = context
+
+        return
+
+    def _compare(self, first, second):
+        graph = self.__context.get_graph().to_undirected()
+        shortest_path_length = nx.shortest_path_length(graph, first, second)
+
+        return 1.0 / (1.0 + shortest_path_length)

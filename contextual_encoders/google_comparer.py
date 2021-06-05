@@ -1,7 +1,7 @@
 from urllib.request import Request, urlopen
 import re
 import time
-from .comparer import Comparer
+from .measure import SimilarityMeasure
 
 user_agent = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS x 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -11,7 +11,7 @@ int_regex = r"[0-9]?[-+.,]?[0-9]+[.]?[0-9]+"
 float_regex = r"\d+\.\d+"
 
 
-class GoogleComparer(Comparer):
+class GoogleComparer(SimilarityMeasure):
     def __init__(self):
         super().__init__(symmetric=True, multiple_values=True)
 

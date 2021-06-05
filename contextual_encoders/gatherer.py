@@ -7,18 +7,18 @@ SymMaxMean = "smm"
 
 class Gatherer(ABC):
     def __init__(self):
-        self._comparer = None
+        self._measure = None
 
     @abstractmethod
     def _gather(self, first, second):
         pass
 
-    def set_comparer(self, comparer):
-        self._comparer = comparer
+    def set_measure(self, comparer):
+        self._measure = comparer
 
     def gather(self, first, second):
-        if self._comparer is None:
-            raise ValueError("No comparer is specified")
+        if self._measure is None:
+            raise ValueError("No measure is specified")
 
         # if we don't have lists, convert them to list
         if not isinstance(first, list):
@@ -44,7 +44,7 @@ class GathererType:
 
 class IdentityGatherer(Gatherer):
     def _gather(self, first, second):
-        return self._comparer.compare(first, second)
+        return self._measure.compare(first, second)
 
 
 class FirstValueGatherer(Gatherer):
@@ -52,7 +52,7 @@ class FirstValueGatherer(Gatherer):
         first = first[0]
         second = second[0]
 
-        return self._comparer.compare(first, second)
+        return self._measure.compare(first, second)
 
 
 class SymMaxMeanGatherer(Gatherer):
@@ -65,7 +65,7 @@ class SymMaxMeanGatherer(Gatherer):
             # get max value_compare(a, b) with b in second
             max_value = 0.0
             for b in second:
-                temp = self._comparer.compare(a, b)
+                temp = self._measure.compare(a, b)
                 if temp > max_value:
                     max_value = temp
             sum1 += max_value
@@ -78,7 +78,7 @@ class SymMaxMeanGatherer(Gatherer):
             # get max value_compare(b, a) with a in first
             max_value = 0.0
             for a in first:
-                temp = self._comparer.compare(b, a)
+                temp = self._measure.compare(b, a)
                 if temp > max_value:
                     max_value = temp
             sum2 += max_value

@@ -1,5 +1,11 @@
 import seaborn as sns
-from contextual_encoders import TreeContext, WuPalmerComparer, ContextualEncoder
+from contextual_encoders import (
+    TreeContext,
+    WuPalmer,
+    ContextualEncoder,
+    GraphContext,
+    PathLengthMeasure,
+)
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -12,25 +18,32 @@ def simple_example():
     # Select a subset of categorical variables
     data = tips["day"]
 
+    subset = data.sample(frac=1, random_state=1).reset_index(drop=True).head(10)
+
     # Step 1: Define the context
-    day = TreeContext("day")
-    day.add_concept("Mon")
-    day.add_concept("Tue")
-    day.add_concept("Wed")
-    day.add_concept("Thur")
-    day.add_concept("Fri")
-    day.add_concept("Sat")
-    day.add_concept("Sun")
+    day = GraphContext("day")
+    day.add_concept("Mon", "Tue")
+    day.add_concept("Tue", "Wed")
+    day.add_concept("Wed", "Thur")
+    day.add_concept("Thur", "Fri")
+    day.add_concept("Fri", "Sat")
+    day.add_concept("Sat", "Sun")
+    day.add_concept("Sun", "Mon")
 
     # Step 2: Define the comparer
-    day_comparer = WuPalmerComparer(day)
+    day_comparer = PathLengthMeasure(day)
 
     # Step 3+4: Calculate Distance Matrix
     #           and map to euclidean vectors
-    encoder = ContextualEncoder(day_comparer, n_components=2)
-    encoded_data = encoder.transform(data)
+    encoder = ContextualEncoder(day_comparer, inverter="sqrt", n_components=2)
+    encoded_data = encoder.transform(subset)
 
     print_data_points(encoded_data, "Day")
+
+    print_matrix(encoder.get_similarity_matrix(), "Similarities")
+    print_matrix(encoder.get_dissimilarity_matrix(), "Dissimilarity")
+
+    return
 
 
 def advanced_example():
@@ -41,6 +54,8 @@ def advanced_example():
     # Select a subset of categorical variables
     data = tips[["sex", "smoker", "day", "time"]]
 
+    subset = data.sample(frac=1, random_state=1).reset_index(drop=True).head(10)
+
     # Step 1: Define the context
     sex = TreeContext("sex")
     sex.add_concept("Female")
@@ -50,39 +65,42 @@ def advanced_example():
     smoker.add_concept("No")
     smoker.add_concept("Yes")
 
-    day = TreeContext("day")
-    day.add_concept("Mon")
-    day.add_concept("Tue")
-    day.add_concept("Wed")
-    day.add_concept("Thur")
-    day.add_concept("Fri")
-    day.add_concept("Sat")
-    day.add_concept("Sun")
+    day = GraphContext("day")
+    day.add_concept("Mon", "Tue")
+    day.add_concept("Tue", "Wed")
+    day.add_concept("Wed", "Thur")
+    day.add_concept("Thur", "Fri")
+    day.add_concept("Fri", "Sat")
+    day.add_concept("Sat", "Sun")
+    day.add_concept("Sun", "Mon")
 
     time = TreeContext("time")
     time.add_concept("Dinner")
     time.add_concept("Lunch")
 
     # Step 2: Define the comparer
-    sex_comparer = WuPalmerComparer(sex)
-    smoker_comparer = WuPalmerComparer(smoker)
-    day_comparer = WuPalmerComparer(day)
-    time_comparer = WuPalmerComparer(time)
+    sex_measure = WuPalmer(sex)
+    smoker_measure = WuPalmer(smoker)
+    day_measure = PathLengthMeasure(day)
+    time_measure = WuPalmer(time)
 
     # Step 3+4: Calculate Distance Matrix
     #           and map to euclidean vectors
     encoder = ContextualEncoder(
-        [sex_comparer, smoker_comparer, day_comparer, time_comparer]
+        [sex_measure, smoker_measure, day_measure, time_measure], inverter="sqrt"
     )
-    encoder = ContextualEncoder(day_comparer, n_components=3)
-    encoded_data = encoder.transform(data)
+    encoded_data = encoder.transform(subset)
 
-    print(encoded_data)
+    print_data_points(encoded_data, "Tips")
+    print_matrix(encoder.get_similarity_matrix(), "Similarity")
+    print_matrix(encoder.get_dissimilarity_matrix(), "Dissimilarity")
+
+    return
 
 
 def print_matrix(matrix, title):
     fig, ax = plt.subplots()
-    ax.matshow(matrix, cmap=plt.cm.Blues)
+    ax.matshow(matrix, cmap=plt.cm.get_cmap("Blues"))
 
     for i in range(len(matrix)):
         for j in range(len(matrix)):
@@ -94,7 +112,8 @@ def print_matrix(matrix, title):
 
 
 def print_data_points(data_points, title):
-    colors = np.random.rand(len(data_points))
+    # colors = np.random.rand(len(data_points))
+    colors = np.ones(len(data_points))
 
     plt.scatter(data_points[:, 0], data_points[:, 1], c=colors, alpha=0.5)
     plt.title = title
@@ -102,4 +121,5 @@ def print_data_points(data_points, title):
 
 
 if __name__ == "__main__":
-    simple_example()
+    # simple_example()
+    advanced_example()

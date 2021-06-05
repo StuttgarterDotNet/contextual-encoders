@@ -1,18 +1,18 @@
 .. Contextual Encoders documentation master file, created by
-   sphinx-quickstart on Mon May 31 14:51:38 2021.
+   sphinx-quickstart on Fri Jun  4 14:41:40 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Contextual Encoders
+API Reference
 ===============================================
-This is the developer documentation of the Python library contextual-encoders.
-Because the library is in early stage of its development process, the documentation only provide the very basic usage of it.
+
+This is the API Reference of the Python library Contextual Encoders.
+
+.. automodule:: contextual_encoders.aggregator
+   :members:
 
 .. toctree::
-   :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================

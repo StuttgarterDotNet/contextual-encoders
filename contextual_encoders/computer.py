@@ -3,11 +3,11 @@ from .gatherer import GathererType, Identity
 
 
 class SimilarityMatrixComputer:
-    def __init__(self, comparer, gatherer, separator_token):
-        self.__comparer = comparer
+    def __init__(self, measure, gatherer, separator_token):
+        self.__measure = measure
         self.__separator_token = separator_token
 
-        if self.__comparer.can_handle_multiple_values():
+        if self.__measure.can_handle_multiple_values():
             self.__gatherer = GathererType.create(Identity)
         else:
             self.__gatherer = GathererType.create(gatherer)
@@ -22,7 +22,7 @@ class SimilarityMatrixComputer:
                 first = first.split(self.__separator_token)
                 second = str(data[j])
                 second = second.split(self.__separator_token)
-                self.__gatherer.set_comparer(self.__comparer)
+                self.__gatherer.set_measure(self.__measure)
                 matrix[i, j] = self.__gatherer.gather(first, second)
 
         return matrix
