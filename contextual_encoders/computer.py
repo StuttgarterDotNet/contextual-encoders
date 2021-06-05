@@ -1,8 +1,14 @@
+"""
+Computer
+====================================
+
+"""
+
 import numpy as np
 from .gatherer import GathererType, Identity
 
 
-class SimilarityMatrixComputer:
+class MatrixComputer:
     def __init__(self, measure, gatherer, separator_token):
         self.__measure = measure
         self.__separator_token = separator_token

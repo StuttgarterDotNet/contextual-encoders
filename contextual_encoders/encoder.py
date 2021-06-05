@@ -1,7 +1,7 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 from .measure import Measure, SimilarityMeasure, DissimilarityMeasure
 from .aggregator import AggregatorFactory, Mean
-from .computer import SimilarityMatrixComputer
+from .computer import MatrixComputer
 from .gatherer import SymMaxMean
 from .inverter import InverterType, Linear
 from .reducer import ReducerType, MultidimensionalScaling
@@ -37,7 +37,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
 
         for i in range(0, len(self.__measures)):
             self.__computer.append(
-                SimilarityMatrixComputer(
+                MatrixComputer(
                     measures[i], gatherer, kwargs["separator_token"]
                 )
             )

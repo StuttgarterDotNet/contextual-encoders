@@ -14,7 +14,7 @@ from contextual_encoders.measure import (
     PathLengthMeasure,
 )
 from contextual_encoders.google_comparer import GoogleComparer
-from contextual_encoders.computer import SimilarityMatrixComputer
+from contextual_encoders.computer import MatrixComputer
 from contextual_encoders.context import TreeContext, GraphContext, GraphBasedContext
 from contextual_encoders.encoder import ContextualEncoder
 from contextual_encoders.gatherer import (
