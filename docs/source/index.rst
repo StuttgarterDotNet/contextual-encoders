@@ -6,9 +6,12 @@
 API Reference
 ===============================================
 
-This is the API Reference of the Python library Contextual Encoders.
+This is the API Reference of the Python library `Contextual Encoders <https://github.com/StuttgarterDotNet/contextual-encoders>`_.
 
 .. automodule:: contextual_encoders.aggregator
+   :members:
+
+.. automodule:: contextual_encoders.computer
    :members:
 
 .. toctree::

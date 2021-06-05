@@ -18,8 +18,6 @@ Median      :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\left\{ \\begin{array}{l
 Max         :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = max_{ k} \\; D_{i,j}^k`
 Min         :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = min_{ k} \\; D_{i,j}^k`
 =========== ===========
-
-Concrete instances of these aggregators can be created using the AggregatorFactory.
 """
 
 import numpy as np
@@ -54,9 +52,9 @@ class AggregatorFactory:
         """
         Creates an instance of the given aggregator name.
 
-        :param aggregator: name of the aggregator, which can be ``mean``, ``median``, ``max`` or ``min``.
+        :param aggregator: The name of the aggregator, which can be ``mean``, ``median``, ``max`` or ``min``.
 
-        :return: an instance of the aggregator.
+        :return: An instance of the aggregator.
 
         :raise ValueError: The given aggregator does not exist.
         """
@@ -74,47 +72,79 @@ class AggregatorFactory:
 
 class MeanAggregator(Aggregator):
     """
-    This class aggregates similarity or dissimilarity matrices using the mean.
+    This class aggregates similarity or dissimilarity matrices using the ``mean``.
+    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    the *MeanAggregator* calculates
+
+    .. centered::
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\frac{1}{m} \\sum_{i=1}^{m} D^i`.
     """
 
     def aggregate(self, matrices):
         """
-        Calculates :math:`D = \\mathcal{A} (D^1, D^2, ..., D^m) = \\frac{1}{m} \\sum_{i=1}^{m} D^i`.
+        Calculates the mean of all given matrices along the zero axis.
+
+        :param matrices: A list of 2D numpy arrays.
+        :return: A 2D numpy array.
         """
         return np.mean(matrices, axis=0)
 
 
 class MedianAggregator(Aggregator):
     """
-    lol
+    This class aggregates similarity or dissimilarity matrices using the ``median``.
+    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    the *MedianAggregator* calculates
+
+    .. centered::
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\left\{ \\begin{array}{ll} D^{\\frac{m}{2}}  & \\mbox{, if } m \\mbox{ is even} \\\\ \\frac{1}{2} \\left( D^{\\frac{m-1}{2}} + D^{\\frac{m+1}{2}} \\right) & \\mbox{, if } m \\mbox{ is odd} \\end{array} \\right.`
     """
 
     def aggregate(self, matrices):
         """
-        lol
+        Calculates the median of all given matrices along the zero axis.
+
+        :param matrices: A list of 2D numpy arrays.
+        :return: A 2D numpy array.
         """
         return np.median(matrices, axis=0)
 
 
 class MaxAggregator(Aggregator):
     """
-    lol
+    This class aggregates similarity or dissimilarity matrices using the ``max``.
+    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    the *MaxAggregator* calculates
+
+    .. centered::
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = max_{ k} \\; D_{i,j}^k`.
     """
 
     def aggregate(self, matrices):
         """
-        lol
+        Calculates the max of all given matrices along the zero axis.
+
+        :param matrices: A list of 2D numpy arrays.
+        :return: A 2D numpy array.
         """
         return np.max(matrices, axis=0)
 
 
 class MinAggregator(Aggregator):
     """
-    lol
+    This class aggregates similarity or dissimilarity matrices using the ``min``.
+    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    the *MinAggregator* calculates
+
+    .. centered::
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = min_{ k} \\; D_{i,j}^k`.
     """
 
     def aggregate(self, matrices):
         """
-        lol
+        Calculates the min of all given matrices along the zero axis.
+
+        :param matrices: A list of 2D numpy arrays.
+        :return: A 2D numpy array.
         """
         return np.min(matrices, axis=0)
