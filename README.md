@@ -19,7 +19,7 @@ Contextual variables are numerical or categorical variables, that underlie a cer
 Examples are the days of the week, that have a hidden graph structure:
 
 <p align="center">
-<img src="./docs/source/_static/Weekdays.svg" alt="">
+<img src="./docs/source/_static/weekdays.svg" alt="">
 </p>
 
 When encoding these categorical variables with a simple encoding strategy such as <em>One-Hot-Encoding</em>, the hidden structure will be neglected.

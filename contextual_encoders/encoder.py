@@ -60,9 +60,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
 
         for i in range(0, len(self.__measures)):
             self.__computer.append(
-                MatrixComputer(
-                    measures[i], gatherer, kwargs["separator_token"]
-                )
+                MatrixComputer(measures[i], gatherer, kwargs["separator_token"])
             )
 
         return

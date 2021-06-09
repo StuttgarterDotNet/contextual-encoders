@@ -15,6 +15,7 @@ class MatrixComputer:
     """
     The service class to compute similarity or dissimilarity matrices.
     """
+
     def __init__(self, measure, gatherer, separator_token=","):
         """
         Initializes the *MatrixComputer*.

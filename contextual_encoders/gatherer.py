@@ -19,6 +19,7 @@ class Gatherer(ABC):
     """
     The abstract base class of all Gatherer.
     """
+
     def __init__(self):
         """
         Initializes the Gatherer.
@@ -44,7 +45,7 @@ class Gatherer(ABC):
     def set_measure(self, measure):
         """
         Sets the measure for the Gatherer.
-        
+
         :param measure: The measure.
         """
         self._measure = measure
@@ -77,6 +78,7 @@ class GathererFactory:
     """
     The factory class for creating Gatherer.
     """
+
     @staticmethod
     def create(gatherer_type):
         """
@@ -99,6 +101,7 @@ class IdentityGatherer(Gatherer):
     """
     A Gatherer that let the measure decide how to handle multiple values.
     """
+
     def _gather(self, first, second):
         """
         Calling the measure without handling multiple values at Gatherer level.
@@ -114,6 +117,7 @@ class FirstValueGatherer(Gatherer):
     """
     A Gatherer only measuring the first values of the attributes.
     """
+
     def _gather(self, first, second):
         """
         Gather the given attributes with only measuring their first values.
@@ -132,6 +136,7 @@ class SymMaxMeanGatherer(Gatherer):
     """
     A symmetrical maximum gatherer implementation.
     """
+
     def _gather(self, first, second):
         """
         Gathers two attributes in a symmetrical manner.

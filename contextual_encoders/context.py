@@ -19,6 +19,7 @@ class Context(ABC):
     """
     The abstract base class for all Context.
     """
+
     def __init__(self, name):
         """
         Initializes the Context.
@@ -52,6 +53,7 @@ class GraphBasedContext(Context):
     """
     A base class for all graph based Context.
     """
+
     def __init__(self, name):
         """
         Initializes the GraphBasedContext.
@@ -109,6 +111,7 @@ class GraphContext(GraphBasedContext):
     """
     A graph based Context than can be used for graph based measures.
     """
+
     def add_concept(self, node, neighbor=None, weight=1.0):
         """
         Adds a new node to the graph.
@@ -139,6 +142,7 @@ class TreeContext(GraphBasedContext):
     """
     A graph based Context than can be used for tree based measures.
     """
+
     def add_concept(self, child, parent=None, weight=1.0):
         """
         Adds a new node to the tree, where the name of the context serves as the root node.
