@@ -27,12 +27,11 @@ release = "1.0.0"
 
 
 # -- General configuration ---------------------------------------------------
-import sphinx_rtd_theme
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx_rtd_theme", "sphinx.ext.autodoc", "sphinx.ext.coverage"]
+extensions = ["sphinx_rtd_theme", "sphinx.ext.autodoc", "sphinx.ext.coverage", "sphinx.ext.napoleon"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -50,7 +49,11 @@ exclude_patterns = []
 #
 html_theme = "sphinx_rtd_theme"
 
-html_theme_options = { }
+html_theme_options = {
+    'navigation_depth': -1,
+    'collapse_navigation': False,
+    'sticky_navigation': False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

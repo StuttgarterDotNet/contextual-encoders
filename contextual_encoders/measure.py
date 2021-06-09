@@ -1,3 +1,13 @@
+"""
+Measure
+====================================
+A *Gatherer* is used to combine a set of pairwise attribute measures to a single measure.
+
+.. note::
+
+    If a measure can handle multiple values, a Gatherer is not needed.
+"""
+
 import json
 import networkx as nx
 from networkx.algorithms.dag import dag_longest_path

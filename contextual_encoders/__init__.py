@@ -19,7 +19,7 @@ from contextual_encoders.context import TreeContext, GraphContext, GraphBasedCon
 from contextual_encoders.encoder import ContextualEncoder
 from contextual_encoders.gatherer import (
     Gatherer,
-    GathererType,
+    GathererFactory,
     IdentityGatherer,
     FirstValueGatherer,
     SymMaxMeanGatherer,

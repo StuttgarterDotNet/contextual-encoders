@@ -1,3 +1,13 @@
+"""
+Gatherer
+====================================
+A *Gatherer* is used to combine a set of pairwise attribute measures to a single measure.
+
+.. note::
+
+    If a measure can handle multiple values, a Gatherer is not needed.
+"""
+
 from abc import ABC, abstractmethod
 
 Identity = "id"
@@ -6,17 +16,51 @@ SymMaxMean = "smm"
 
 
 class Gatherer(ABC):
+    """
+    The abstract base class of all Gatherer.
+    """
     def __init__(self):
+        """
+        Initializes the Gatherer.
+        """
         self._measure = None
 
     @abstractmethod
     def _gather(self, first, second):
+        """
+        The abstract method to gather two attributes.
+        This class needs to be implemented by concrete instances of Gatherer.
+
+        .. note::
+
+            Multiple values, e.g. comma separated, are exclusively possible.
+
+        :param first: The value of the first attribute.
+        :param second: The value of the second attribute.
+        :return: The aggregated value.
+        """
         pass
 
-    def set_measure(self, comparer):
-        self._measure = comparer
+    def set_measure(self, measure):
+        """
+        Sets the measure for the Gatherer.
+        
+        :param measure: The measure.
+        """
+        self._measure = measure
 
     def gather(self, first, second):
+        """
+        Combines the given attributes.
+
+        .. note::
+
+            Multiple values, e.g. comma separated, are exclusively possible.
+
+        :param first: The value of the first attribute.
+        :param second: The value of the second attribute.
+        :return: The aggregated value.
+        """
         if self._measure is None:
             raise ValueError("No measure is specified")
 
@@ -29,9 +73,18 @@ class Gatherer(ABC):
         return self._gather(first, second)
 
 
-class GathererType:
+class GathererFactory:
+    """
+    The factory class for creating Gatherer.
+    """
     @staticmethod
     def create(gatherer_type):
+        """
+        Creates a Gatherer given the type.
+
+        :param gatherer_type: The type of the Gatherer which can be ``id``, ``first`` or ``smm``.
+        :return: The concrete instance of the Gatherer.
+        """
         if gatherer_type == Identity:
             return IdentityGatherer()
         elif gatherer_type == First:
@@ -43,12 +96,32 @@ class GathererType:
 
 
 class IdentityGatherer(Gatherer):
+    """
+    A Gatherer that let the measure decide how to handle multiple values.
+    """
     def _gather(self, first, second):
+        """
+        Calling the measure without handling multiple values at Gatherer level.
+
+        :param first: The value of the first attribute.
+        :param second: The value of the second attribute.
+        :return: The value returned from the measure.
+        """
         return self._measure.compare(first, second)
 
 
 class FirstValueGatherer(Gatherer):
+    """
+    A Gatherer only measuring the first values of the attributes.
+    """
     def _gather(self, first, second):
+        """
+        Gather the given attributes with only measuring their first values.
+
+        :param first: The value of the first attribute.
+        :param second: The value of the second attribute.
+        :return: The combined value.
+        """
         first = first[0]
         second = second[0]
 
@@ -56,7 +129,17 @@ class FirstValueGatherer(Gatherer):
 
 
 class SymMaxMeanGatherer(Gatherer):
+    """
+    A symmetrical maximum gatherer implementation.
+    """
     def _gather(self, first, second):
+        """
+        Gathers two attributes in a symmetrical manner.
+
+        :param first: The value of the first attribute.
+        :param second: The value of the second attribute.
+        :return: The combined value.
+        """
         sum1 = 0.0
         sum2 = 0.0
 

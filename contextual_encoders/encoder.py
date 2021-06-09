@@ -1,3 +1,13 @@
+"""
+ContextualEncoder
+====================================
+The *ContextualEncoder* is the actual interface for using the Contextual Encoders library.
+It is used to perform the contextual encoding of a given dataset.
+Moreover, it inherits from the scikit-learn `BaseEstimator <https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html>`_
+and `TransformerMixin <https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html>`_
+types and thus enable being used in scikit-learn `Pipelines <https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html>`_.
+"""
+
 from sklearn.base import BaseEstimator, TransformerMixin
 from .measure import Measure, SimilarityMeasure, DissimilarityMeasure
 from .aggregator import AggregatorFactory, Mean
@@ -9,6 +19,8 @@ from .data_utils import DataUtils
 
 
 class ContextualEncoder(BaseEstimator, TransformerMixin):
+    # TODO: Remove the **kwargs keyword accordingly to
+    #  https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html
     def __init__(
         self,
         measures,
@@ -19,6 +31,17 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         reducer=MultidimensionalScaling,
         **kwargs
     ):
+        """
+        Initializes the *ContextualEncoder*.
+
+        :param measures: A measure.
+        :param cols: Pandas columns.
+        :param inverter: The inverter
+        :param gatherer: The gatherer.
+        :param aggregator: The aggregator.
+        :param reducer: The reducer.
+        :param kwargs: Additional keywords.
+        """
         if "separator_token" not in kwargs:
             kwargs["separator_token"] = ","
 
@@ -44,7 +67,13 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
 
         return
 
-    def infer_columns(self, x):
+    def __infer_columns(self, x):
+        """
+        Infers categorical columns form the given data.
+
+        :param x: The data in pandas dataframe format.
+        :return: A list of column names that are of categorical type.
+        """
         if self.__cols is not None:
             return self.__cols
         elif len(x) == 0:
@@ -55,15 +84,20 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
 
         return self.__cols
 
-    def fit(self, x, y=None):
-        return self
+    def fit_transform(self, x, y=None, **fit_params):
+        """
+        Encodes the given data.
 
-    def transform(self, x):
+        :param x: The data as numpy array, pandas dataframe or python list format.
+        :param y: TBA.
+        :param fit_params: TBA.
+        :return: The transformed data.
+        """
         similarity_matrices = []
         dissimilarity_matrices = []
 
         x_df = DataUtils.ensure_pandas_dataframe(x)
-        self.__cols = self.infer_columns(x_df)
+        self.__cols = self.__infer_columns(x_df)
 
         for col in self.__cols:
             matrix = self.__computer[col].compute(x_df[col])
@@ -92,7 +126,17 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         return data_points
 
     def get_similarity_matrix(self):
+        """
+        Gets the similarity matrix.
+
+        :return: The similarity matrix as 2D numpy array.
+        """
         return self.__similarity_matrix
 
     def get_dissimilarity_matrix(self):
+        """
+        Gets the dissimilarity matrix.
+
+        :return: The dissimilarity matrix as 2D numpy array.
+        """
         return self.__dissimilarity_matrix

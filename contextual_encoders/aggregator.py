@@ -1,5 +1,5 @@
 """
-Aggregators
+Aggregator
 ====================================
 Aggregators are used to combine multiple matrices to a single matrix.
 This is used to combine similarity or dissimilarity matrices of multiple attributes to a single one.
@@ -73,7 +73,7 @@ class AggregatorFactory:
 class MeanAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``mean``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MeanAggregator* calculates
 
     .. centered::
@@ -93,7 +93,7 @@ class MeanAggregator(Aggregator):
 class MedianAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``median``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MedianAggregator* calculates
 
     .. centered::
@@ -113,7 +113,7 @@ class MedianAggregator(Aggregator):
 class MaxAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``max``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MaxAggregator* calculates
 
     .. centered::
@@ -133,7 +133,7 @@ class MaxAggregator(Aggregator):
 class MinAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``min``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D_i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MinAggregator* calculates
 
     .. centered::

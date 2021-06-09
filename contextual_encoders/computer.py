@@ -1,24 +1,43 @@
 """
-Computer
+MatrixComputer
 ====================================
-
+The *MatrixComputer* combines the *Measure* with the *Gatherer* and calculates the similarity or
+dissimilarity matrix for one attribute.
+Thus, the *MatrixComputer* can be seen as a mapping :math:`\\mathcal{M}: F \\rightarrow \\mathbb{R}^{n \\times n}`,
+with :math:`F` being the feature space and :math:`n` the amount of selected features.
 """
 
 import numpy as np
-from .gatherer import GathererType, Identity
+from .gatherer import GathererFactory, Identity
 
 
 class MatrixComputer:
-    def __init__(self, measure, gatherer, separator_token):
+    """
+    The service class to compute similarity or dissimilarity matrices.
+    """
+    def __init__(self, measure, gatherer, separator_token=","):
+        """
+        Initializes the *MatrixComputer*.
+
+        :param measure: The instance of the similarity or dissimilarity measure.
+        :param gatherer: The name of the gatherer. If the measure can handle multiple values, the ``Identity`` gatherer will be taken in any way.
+        :param separator_token: A string for separating categorical variables into multiple values.
+        """
         self.__measure = measure
         self.__separator_token = separator_token
 
         if self.__measure.can_handle_multiple_values():
-            self.__gatherer = GathererType.create(Identity)
+            self.__gatherer = GathererFactory.create(Identity)
         else:
-            self.__gatherer = GathererType.create(gatherer)
+            self.__gatherer = GathererFactory.create(gatherer)
 
     def compute(self, data):
+        """
+        Computes the similarity or dissimilarity matrix based on the given data.
+
+        :param data: A single pandas series containing the data. Note, that each entry can have multiple values, that are separated with the ``separator_token``.
+        :return: A 2D numpy array representing the similarity or dissimilarity matrix.
+        """
         n_samples = len(data)
         matrix = np.zeros((n_samples, n_samples))
 
