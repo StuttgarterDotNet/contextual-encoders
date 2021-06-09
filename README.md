@@ -38,10 +38,12 @@ Depending on the techniques that uses the encoding, step 4 can be optional.
 For example, [Agglomerative Clustering](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html) 
 techniques do not require euclidean vectors, they can use the distance matrix directly.
 
-So far, build-in support for tree-based context is provided.
+So far, build-in support for tree- and graph-based context is provided.
 
 ## Notice
 The [Preprocessing](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing) module from scikit-learn offers multiple encoders for categorical variables.
 These encoders use simple techniques to encode categorical variables into numerical variables.
 Additionally, the [Category Encoders](http://contrib.scikit-learn.org/category_encoders) package offers more sophisticated encoders for the same purpose.
 This package is meant to be used as an extension to the previous two packages in the cases, when the context of a numerical or categorical variable can be specified.
+
+This project is currently in the developer stage.
