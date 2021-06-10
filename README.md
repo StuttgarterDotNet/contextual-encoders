@@ -73,19 +73,11 @@ The output of the code is visualized below.
 The graph-based structure can be clearly seen when the euclidean data points are plotted.
 Note, that only five points can be seen, because the days "Thur" and "Sun" are missing in the dataset.
 
-More complicated examples can be found in the [documentation](https://contextual-encoders.readthedocs.io/en/latest/examples.html).
+Similarity Matrix          |  Dissimilarity Matrix     |  Euclidean Data Points
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_similarity_matrix.png?raw=true)  |  ![](https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_dissimilarity_matrix.png?raw=true)  | ![](https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_euclidean_data_points.png?raw=true)
 
-<div class="row">
-  <div class="column">
-    <img src="https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_similarity_matrix.png?raw=true" alt="Similarity Matrix" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_dissimilarity_matrix.png?raw=true" alt="Dissimilarity Matrix" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_euclidean_data_points.png?raw=true" alt="Euclidean Data Points" style="width:100%">
-  </div>
-</div>
+More complicated examples can be found in the [documentation](https://contextual-encoders.readthedocs.io/en/latest/examples.html).
 
 ## Notice
 The [Preprocessing](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing) module from scikit-learn offers multiple encoders for categorical variables.
