@@ -36,7 +36,56 @@ techniques do not require euclidean vectors, they can use a dissimilarity matrix
 
 ## Basic Usage
 
+The code below demonstrates the basic usage of the library.
+Here, a simple dataset with 10 features is used.
 
+```python
+from contextual_encoders import ContextualEncoder, GraphContext, PathLengthMeasure
+import numpy as np
+
+
+# Create a sample dataset
+x = np.array(["Fri", "Tue", "Fri", "Sat", "Mon", "Tue", "Wed", "Tue", "Fri", "Fri"])
+
+# Step 1: Define the context
+day = GraphContext("day")
+day.add_concept("Mon", "Tue")
+day.add_concept("Tue", "Wed")
+day.add_concept("Wed", "Thur")
+day.add_concept("Thur", "Fri")
+day.add_concept("Fri", "Sat")
+day.add_concept("Sat", "Sun")
+day.add_concept("Sun", "Mon")
+
+# Step 2: Define the measure
+day_measure = PathLengthMeasure(day)
+
+# Step 3+4: Calculate (Dis-) similarity Matrix
+#           and map to euclidean vectors
+encoder = ContextualEncoder(day_measure)
+encoded_data = encoder.fit_transform(x)
+
+similarity_matrix = encoder.get_similarity_matrix()
+dissimilarity_matrix = encoder.get_dissimilarity_matrix()
+```
+
+The output of the code is visualized below.
+The graph-based structure can be clearly seen when the euclidean data points are plotted.
+Note, that only five points can be seen, because the days "Thur" and "Sun" are missing in the dataset.
+
+More complicated examples can be found in the [documentation](https://contextual-encoders.readthedocs.io/en/latest/examples.html).
+
+<div class="row">
+  <div class="column">
+    <img src="https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_similarity_matrix.png?raw=true" alt="Similarity Matrix" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_dissimilarity_matrix.png?raw=true" alt="Dissimilarity Matrix" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_euclidean_data_points.png?raw=true" alt="Euclidean Data Points" style="width:100%">
+  </div>
+</div>
 
 ## Notice
 The [Preprocessing](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing) module from scikit-learn offers multiple encoders for categorical variables.
