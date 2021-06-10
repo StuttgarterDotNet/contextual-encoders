@@ -10,6 +10,37 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def readme_example():
+
+    # Create a sample dataset
+    x = np.array(["Fri", "Tue", "Fri", "Sat", "Mon", "Tue", "Wed", "Tue", "Fri", "Fri"])
+
+    # Step 1: Define the context
+    day = GraphContext("day")
+    day.add_concept("Mon", "Tue")
+    day.add_concept("Tue", "Wed")
+    day.add_concept("Wed", "Thur")
+    day.add_concept("Thur", "Fri")
+    day.add_concept("Fri", "Sat")
+    day.add_concept("Sat", "Sun")
+    day.add_concept("Sun", "Mon")
+
+    # Step 2: Define the measure
+    day_measure = PathLengthMeasure(day)
+
+    # Step 3+4: Calculate Dissimilarity Matrix
+    #           and map to euclidean vectors
+    encoder = ContextualEncoder(day_measure)
+    encoded_data = encoder.fit_transform(x)
+
+    print_data_points(encoded_data, "Day")
+
+    print_matrix(encoder.get_similarity_matrix(), "Similarity Matrix")
+    print_matrix(encoder.get_dissimilarity_matrix(), "Dissimilarity Matrix")
+
+    return
+
+
 def simple_example():
 
     # Load the tips dataset
@@ -30,13 +61,13 @@ def simple_example():
     day.add_concept("Sat", "Sun")
     day.add_concept("Sun", "Mon")
 
-    # Step 2: Define the comparer
-    day_comparer = PathLengthMeasure(day)
+    # Step 2: Define the measure
+    day_measure = PathLengthMeasure(day)
 
     # Step 3+4: Calculate Distance Matrix
     #           and map to euclidean vectors
-    encoder = ContextualEncoder(day_comparer, inverter="sqrt", n_components=2)
-    encoded_data = encoder.transform(subset)
+    encoder = ContextualEncoder(day_measure, inverter="sqrt", n_components=2)
+    encoded_data = encoder.fit_transform(subset)
 
     print_data_points(encoded_data, "Day")
 
@@ -78,7 +109,7 @@ def advanced_example():
     time.add_concept("Dinner")
     time.add_concept("Lunch")
 
-    # Step 2: Define the comparer
+    # Step 2: Define the measure
     sex_measure = WuPalmer(sex)
     smoker_measure = WuPalmer(smoker)
     day_measure = PathLengthMeasure(day)
@@ -89,7 +120,7 @@ def advanced_example():
     encoder = ContextualEncoder(
         [sex_measure, smoker_measure, day_measure, time_measure], inverter="sqrt"
     )
-    encoded_data = encoder.transform(subset)
+    encoded_data = encoder.fit_transform(subset)
 
     print_data_points(encoded_data, "Tips")
     print_matrix(encoder.get_similarity_matrix(), "Similarity")
@@ -116,10 +147,11 @@ def print_data_points(data_points, title):
     colors = np.ones(len(data_points))
 
     plt.scatter(data_points[:, 0], data_points[:, 1], c=colors, alpha=0.5)
-    plt.title = title
+    plt.title("Euclidean Data Points")
     plt.show()
 
 
 if __name__ == "__main__":
+    readme_example()
     # simple_example()
-    advanced_example()
+    # advanced_example()

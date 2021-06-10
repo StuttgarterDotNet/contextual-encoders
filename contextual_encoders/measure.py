@@ -149,9 +149,7 @@ class WuPalmer(SimilarityMeasure):
             ud_graph, second, lca
         )
         d3 = (
-            nx.algorithms.shortest_paths.generic.shortest_path_length(
-                ud_graph, lca, root
-            )
+            nx.algorithms.shortest_paths.generic.shortest_path_length(ud_graph, lca, root)
             + self.__offset
         )
 
