@@ -66,6 +66,8 @@ if sphinx_config.get("html-baseurl", None):
 extensions = [
     "sphinxcontrib.redoc",
     "sphinx_click",
+    "sphinx.ext.coverage",
+    "sphinx.ext.napoleon",
 ]
 
 autosectionlabel_prefix_document = False
@@ -169,6 +171,7 @@ html_static_path = ["_static"]
 
 
 # -- Further extension options -----------------------------------------------
+
 
 def setup(app):
     recommonmark_config = {}
