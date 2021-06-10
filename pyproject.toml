@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "A library of sklearn compatible contextual categorical variable encoders"
 authors = ["Daniel Fink"]
 license = "Apache-2.0"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -20,6 +21,34 @@ Sphinx = "^4.0.2"
 black = "^21.5b1"
 seaborn = "^0.11.1"
 sphinx-rtd-theme = "^0.5.2"
+tomlkit = "^0.7.2"
+sphinx-click = "^3.0.0"
+recommonmark = "^0.7.1"
+sphinxcontrib-redoc = "^1.6.0"
+
+[tool.black]
+line-length = 90
+include = '\.pyi?$'
+
+[tool.sphinx]
+copyright-year = 2021
+enable-autodoc = true
+enable-autosectionlabel = true
+enable-markdown = true
+enable-todo = true
+# update gitignore if you want to edit docs/changelog.md manually!
+include-changelog = false
+# update gitignore if you want to edit docs/readme.md manually!
+include-readme = false
+
+[tool.sphinx.intersphinx-mapping]
+python = ["https://docs.python.org/3"]
+
+[tool.sphinx.recommonmark]
+auto-toc-tree-section = "Contents"
+enable-math = true
+enable-inline-math = true
+enable-eval-rst = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
