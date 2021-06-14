@@ -24,11 +24,6 @@ min         :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = min_{ l} \\; D_{i,j}^l`
 import numpy as np
 from abc import ABC, abstractmethod
 
-Mean = "mean"
-Median = "median"
-Max = "max"
-Min = "min"
-
 
 class Aggregator(ABC):
     """
@@ -65,13 +60,13 @@ class AggregatorFactory:
 
         :raise ValueError: The given *Aggregator* does not exist.
         """
-        if aggregator == Mean:
+        if aggregator == "mean":
             return MeanAggregator()
-        elif aggregator == Median:
+        elif aggregator == "median":
             return MedianAggregator()
-        elif aggregator == Max:
+        elif aggregator == "max":
             return MaxAggregator()
-        elif aggregator == Min:
+        elif aggregator == "min":
             return MinAggregator()
         else:
             raise ValueError(f"An aggregator of type {aggregator} does not exist.")
