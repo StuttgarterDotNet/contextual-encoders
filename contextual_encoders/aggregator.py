@@ -1,15 +1,15 @@
 """
 Aggregator
 ====================================
-Aggregators are used to combine multiple matrices to a single matrix.
+*Aggregators* are used to combine multiple matrices to a single matrix.
 This is used to combine similarity and dissimilarity matrices of multiple attributes to a single one.
-Thus, an aggregator :math:`\\mathcal{A}` is a mapping of the form
+Thus, an *Aggregator* :math:`\\mathcal{A}` is a mapping of the form
 :math:`\\mathcal{A} : \\mathbb{R}^{n \\times n \\times k} \\rightarrow \\mathbb{R}^{n \\times n}`,
-with :math:`n` being the amount of features and :math:`k` being the number of similarity or dissimilarity matrices of type :math:`D \\in \\mathbb{R}^{n \\times n}`,
-i.e. the amount of attributes/columns of the dataset.
+with :math:`n` being the amount of features and :math:`k` being the number of similarity or dissimilarity matrices
+of type :math:`D \\in \\mathbb{R}^{n \\times n}`, i.e. the amount of attributes/columns of the dataset.
 
 
-Currently, the following aggregators are implement:
+Currently, the following *Aggregators* are implement:
 
 =========== ===========
 Name        Formula
@@ -32,16 +32,16 @@ Min = "min"
 
 class Aggregator(ABC):
     """
-    An abstract base class for aggregators.
-    If custom aggregators are created,
+    An abstract base class for *Aggregators*.
+    If custom *Aggregators* are created,
     it is enough to derive from this class
-    and use it whenever an aggregator is needed.
+    and use it whenever an *Aggregator* is needed.
     """
 
     @abstractmethod
     def aggregate(self, matrices):
         """
-        The abstract method that is implemented by the concrete aggregators.
+        The abstract method that is implemented by the concrete *Aggregators*.
 
         :param matrices: a list of similarity or dissimilarity matrices as 2D numpy arrays.
         :return: a single 2D numpy array.
@@ -51,19 +51,19 @@ class Aggregator(ABC):
 
 class AggregatorFactory:
     """
-    The factory class for creating concrete instances of the implemented aggregators.
+    The factory class for creating concrete instances of the implemented *Aggregators* with default values.
     """
 
     @staticmethod
     def create(aggregator):
         """
-        Creates an instance of the given aggregator name.
+        Creates an instance of the given *Aggregator* name.
 
-        :param aggregator: The name of the aggregator, which can be ``mean``, ``median``, ``max`` or ``min``.
+        :param aggregator: The name of the *Aggregator*, which can be ``mean``, ``median``, ``max`` or ``min``.
 
-        :return: An instance of the aggregator.
+        :return: An instance of the *Aggregator*.
 
-        :raise ValueError: The given aggregator does not exist.
+        :raise ValueError: The given *Aggregator* does not exist.
         """
         if aggregator == Mean:
             return MeanAggregator()

@@ -1,10 +1,10 @@
 """
 MatrixComputer
 ====================================
-The *MatrixComputer* combines the *Measure* with the *Gatherer* and calculates the similarity or
+The *MatrixComputer* combines the :class:`.Measure` with the :class:`.Gatherer` and calculates the similarity and
 dissimilarity matrix for one attribute.
 Thus, the *MatrixComputer* can be seen as a mapping :math:`\\mathcal{M}: F \\rightarrow \\mathbb{R}^{n \\times n}`,
-with :math:`F` being the feature space and :math:`n` the amount of selected features.
+with :math:`F` being the feature space and :math:`n` the amount of features.
 """
 
 import numpy as np
@@ -13,7 +13,7 @@ from .gatherer import GathererFactory, Identity
 
 class MatrixComputer:
     """
-    The service class to compute similarity or dissimilarity matrices.
+    The service class to compute a similarity and dissimilarity matrix.
     """
 
     def __init__(self, measure, gatherer, separator_token=","):
