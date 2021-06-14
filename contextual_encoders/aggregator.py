@@ -2,10 +2,11 @@
 Aggregator
 ====================================
 Aggregators are used to combine multiple matrices to a single matrix.
-This is used to combine similarity or dissimilarity matrices of multiple attributes to a single one.
+This is used to combine similarity and dissimilarity matrices of multiple attributes to a single one.
 Thus, an aggregator :math:`\\mathcal{A}` is a mapping of the form
-:math:`\\mathcal{A} : \\mathbb{R}^{n \\times n \\times m} \\rightarrow \\mathbb{R}^{n \\times n}`,
-with :math:`n` being the amount of features and :math:`m` being the number of similarity or dissimilarity matrices of type :math:`D \\in \\mathbb{R}^{n \\times n}`.
+:math:`\\mathcal{A} : \\mathbb{R}^{n \\times n \\times k} \\rightarrow \\mathbb{R}^{n \\times n}`,
+with :math:`n` being the amount of features and :math:`k` being the number of similarity or dissimilarity matrices of type :math:`D \\in \\mathbb{R}^{n \\times n}`,
+i.e. the amount of attributes/columns of the dataset.
 
 
 Currently, the following aggregators are implement:
@@ -13,10 +14,10 @@ Currently, the following aggregators are implement:
 =========== ===========
 Name        Formula
 ----------- -----------
-Mean        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\frac{1}{m} \\sum_{i=1}^{m} D^i`
-Median      :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\left\{ \\begin{array}{ll} D^{\\frac{m}{2}}  & \\mbox{, if } m \\mbox{ is even} \\\\ \\frac{1}{2} \\left( D^{\\frac{m-1}{2}} + D^{\\frac{m+1}{2}} \\right) & \\mbox{, if } m \\mbox{ is odd} \\end{array} \\right.`
-Max         :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = max_{ k} \\; D_{i,j}^k`
-Min         :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = min_{ k} \\; D_{i,j}^k`
+mean        :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = \\frac{1}{k} \\sum_{i=1}^{k} D^i`
+median      :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = \\left\{ \\begin{array}{ll} D^{\\frac{k}{2}}  & \\mbox{, if } k \\mbox{ is even} \\\\ \\frac{1}{2} \\left( D^{\\frac{k-1}{2}} + D^{\\frac{k+1}{2}} \\right) & \\mbox{, if } k \\mbox{ is odd} \\end{array} \\right.`
+max         :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = max_{ l} \\; D_{i,j}^l`
+min         :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = min_{ l} \\; D_{i,j}^l`
 =========== ===========
 """
 
@@ -32,19 +33,25 @@ Min = "min"
 class Aggregator(ABC):
     """
     An abstract base class for aggregators.
+    If custom aggregators are created,
+    it is enough to derive from this class
+    and use it whenever an aggregator is needed.
     """
 
     @abstractmethod
     def aggregate(self, matrices):
         """
         The abstract method that is implemented by the concrete aggregators.
+
+        :param matrices: a list of similarity or dissimilarity matrices as 2D numpy arrays.
+        :return: a single 2D numpy array.
         """
         pass
 
 
 class AggregatorFactory:
     """
-    The factory class for creating concrete instances of aggregators.
+    The factory class for creating concrete instances of the implemented aggregators.
     """
 
     @staticmethod
@@ -73,11 +80,11 @@ class AggregatorFactory:
 class MeanAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``mean``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`k` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MeanAggregator* calculates
 
     .. centered::
-        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\frac{1}{m} \\sum_{i=1}^{m} D^i`.
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = \\frac{1}{k} \\sum_{i=1}^{k} D^i`.
     """
 
     def aggregate(self, matrices):
@@ -93,11 +100,11 @@ class MeanAggregator(Aggregator):
 class MedianAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``median``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`k` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MedianAggregator* calculates
 
     .. centered::
-        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = \\left\{ \\begin{array}{ll} D^{\\frac{m}{2}}  & \\mbox{, if } m \\mbox{ is even} \\\\ \\frac{1}{2} \\left( D^{\\frac{m-1}{2}} + D^{\\frac{m+1}{2}} \\right) & \\mbox{, if } m \\mbox{ is odd} \\end{array} \\right.`
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = \\left\{ \\begin{array}{ll} D^{\\frac{k}{2}}  & \\mbox{, if } k \\mbox{ is even} \\\\ \\frac{1}{2} \\left( D^{\\frac{k-1}{2}} + D^{\\frac{k+1}{2}} \\right) & \\mbox{, if } k \\mbox{ is odd} \\end{array} \\right.`
     """
 
     def aggregate(self, matrices):
@@ -113,11 +120,11 @@ class MedianAggregator(Aggregator):
 class MaxAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``max``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`k` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MaxAggregator* calculates
 
     .. centered::
-        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = max_{ k} \\; D_{i,j}^k`.
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = max_{ l} \\; D_{i,j}^l`.
     """
 
     def aggregate(self, matrices):
@@ -133,11 +140,11 @@ class MaxAggregator(Aggregator):
 class MinAggregator(Aggregator):
     """
     This class aggregates similarity or dissimilarity matrices using the ``min``.
-    Given :math:`m` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
+    Given :math:`k` similarity or dissimilarity matrices :math:`D^i \in \\mathbb{R}^{n \\times n}`,
     the *MinAggregator* calculates
 
     .. centered::
-        :math:`\\mathcal{A} (D^1, D^2, ..., D^m) = min_{ k} \\; D_{i,j}^k`.
+        :math:`\\mathcal{A} (D^1, D^2, ..., D^k) = min_{ l} \\; D_{i,j}^l`.
     """
 
     def aggregate(self, matrices):
