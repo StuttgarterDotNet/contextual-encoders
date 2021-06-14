@@ -3,9 +3,9 @@ Context
 ====================================
 The *Context* is the core part of the Contextual Encoders library.
 It is used to measure the similarity or dissimilarity of attributes.
-So far, two different Context-Types are implemented: *GraphContext* and *TreeContext*.
+So far, two different Context-Types are implemented: :class:`.GraphContext` and :class:`.TreeContext`.
 However, it is very likely that custom context needs to be implemented.
-Therefore, the base classes *Context* and *GraphBasedContext* are used,
+Therefore, the base classes :class:`.Context` and :class:`.GraphBasedContext` are used,
 that come with optimized in- and export functions as well as caching.
 """
 
@@ -17,14 +17,14 @@ import matplotlib.pyplot as plt
 
 class Context(ABC):
     """
-    The abstract base class for all Context.
+    The abstract base class for all *Context*.
     """
 
     def __init__(self, name):
         """
-        Initializes the Context.
+        Initializes the *Context*.
 
-        :param name: The name of the Context.
+        :param name: The name of the *Context*.
         """
         self._name = name
 
@@ -33,32 +33,32 @@ class Context(ABC):
     @abstractmethod
     def export_to_file(self, path):
         """
-        Exports the Context to the given file path.
+        Exports the *Context* to the given file path.
 
-        :param path: The path to export the Context to.
+        :param path: The path to export the *Context* to.
         """
         pass
 
     @abstractmethod
     def import_from_file(self, path):
         """
-        Imports the Context from the given file path.
+        Imports the *Context* from the given file path.
 
-        :param path: The path to import the Context from.
+        :param path: The path to import the *Context* from.
         """
         pass
 
 
 class GraphBasedContext(Context):
     """
-    A base class for all graph based Context.
+    A base class for all graph based *Context*.
     """
 
     def __init__(self, name):
         """
-        Initializes the GraphBasedContext.
+        Initializes the *GraphBasedContext*.
 
-        :param name: The name of the Context.
+        :param name: The name of the *Context*.
         """
         super().__init__(name)
         self._graph = nx.DiGraph()

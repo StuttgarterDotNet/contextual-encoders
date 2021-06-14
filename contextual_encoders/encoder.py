@@ -41,7 +41,7 @@ or a mix of both and produces :math:`n` vectors of dimension :math:`m \\in \\mat
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from .measure import Measure, SimilarityMeasure, DissimilarityMeasure
-from .aggregator import Mean, AggregatorFactory
+from .aggregator import AggregatorFactory
 from .computer import MatrixComputer
 from .gatherer import Gatherer, SymMaxMean, GathererFactory
 from .inverter import Inverter, InverterFactory, Sqrt
@@ -59,7 +59,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         measures,
         separator_token=",",
         gatherers=SymMaxMean,
-        aggregator=Mean,
+        aggregator="mean",
         inverters=Sqrt,
         reducer=MultidimensionalScaling,
     ):
