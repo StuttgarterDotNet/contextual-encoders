@@ -31,7 +31,7 @@ def readme_example():
     # Step 3+4: Calculate Dissimilarity Matrix
     #           and map to euclidean vectors
     encoder = ContextualEncoder(day_measure)
-    encoded_data = encoder.fit_transform(x)
+    encoded_data = encoder.transform(x)
 
     print_data_points(encoded_data, "Day")
 
@@ -66,8 +66,8 @@ def simple_example():
 
     # Step 3+4: Calculate Distance Matrix
     #           and map to euclidean vectors
-    encoder = ContextualEncoder(day_measure, inverter="sqrt", n_components=2)
-    encoded_data = encoder.fit_transform(subset)
+    encoder = ContextualEncoder(day_measure, inverters="sqrt")
+    encoded_data = encoder.transform(subset)
 
     print_data_points(encoded_data, "Day")
 
@@ -118,9 +118,9 @@ def advanced_example():
     # Step 3+4: Calculate Distance Matrix
     #           and map to euclidean vectors
     encoder = ContextualEncoder(
-        [sex_measure, smoker_measure, day_measure, time_measure], inverter="sqrt"
+        [sex_measure, smoker_measure, day_measure, time_measure], inverters="sqrt"
     )
-    encoded_data = encoder.fit_transform(subset)
+    encoded_data = encoder.transform(subset)
 
     print_data_points(encoded_data, "Tips")
     print_matrix(encoder.get_similarity_matrix(), "Similarity")

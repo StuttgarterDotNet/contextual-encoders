@@ -1,11 +1,15 @@
 """
 Reducer
 ====================================
-A *Gatherer* is used to combine a set of pairwise attribute measures to a single measure.
+A *Reducer* transforms a similarity or dissimilarity matrix into a set of vectors.
+Mathematically, it can be seen as
+a map :math:`\\mathcal{R} : D \\in \\mathbb{R}^{n \\times n} \\rightarrow  \\tilde{X} \\subset \\mathbb{R}^{m}`,
+with :math:`m \\in \mathbb{N}` being the (configurable) dimension of the encoding
+and :math:`\\tilde{X}` the encoded dataset as vectors.
 
-.. note::
-
-    If a measure can handle multiple values, a Gatherer is not needed.
+In other words, let :math:`n \\in \\mathbb{N}` be the amount of features.
+A *Reducer* then takes the similarity or dissimilarity matrix :math:`D \\in \\mathbb{R}^{n \\times n}`
+and produces :math:`n` euclidean vectors of dimension :math:`m`.
 """
 
 from abc import ABC, abstractmethod
@@ -15,17 +19,57 @@ MultidimensionalScaling = "mds"
 
 
 class Reducer(ABC):
+    """
+    The abstract base class for all reducers.
+    """
+
     def __init__(self, n_components):
+        """
+        Initializes the reducer.
+
+        :param n_components: The dimension of the output vectors.
+        """
         self.__n_components = n_components
 
     @abstractmethod
     def reduce(self, matrix):
+        """
+        The abstract method that is implemented by concrete instances of reducers.
+
+        :param matrix: The similarity or dissimilarity matrix
+            :math:`D \\in \\mathbb{R}^{n \\times n}` as 2D numpy array.
+        :return: The set of vectors :math:`\\tilde{X} \\in \\mathbb{R}^{n \\times m}`,
+            with :math:`m` being n_components.
+        """
         pass
 
 
-class ReducerType:
+class SimilarityMatrixReducer(Reducer, ABC):
+    """
+    An abstract base class for reducing similarity matrices.
+    """
+
+
+class DissimilarityMatrixReducer(Reducer, ABC):
+    """
+    An abstract base class for reducing dissimilarity matrices.
+    """
+
+
+class ReducerFactory:
+    """
+    The factory class for creating reducers.
+    """
+
     @staticmethod
     def create(reducer_type, **kwargs):
+        """
+        Creates a concrete reducer instance given the name.
+
+        :param reducer_type: The name of the reducer. Currently, only the ``mds`` reducer is implemented.
+        :param kwargs:
+        :return:
+        """
         if "n_components" not in kwargs:
             kwargs["n_components"] = 2
         if "metric" not in kwargs:
@@ -39,8 +83,20 @@ class ReducerType:
             raise ValueError(f"A reducer of type {reducer_type} does not exist.")
 
 
-class MultidimensionalScalingReducer(Reducer):
+class MultidimensionalScalingReducer(DissimilarityMatrixReducer):
+    """
+    A reducer using the
+    `Multidimensional Scaling <https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html>`_
+    approach (MDS) from scikit-learn.
+    """
+
     def __init__(self, n_components, metric):
+        """
+        Initializes the *MultidimensionalScalingReducer*.
+
+        :param n_components: The dimension of the output vectors.
+        :param metric:
+        """
         super().__init__(n_components)
         self.__mds = MDS(n_components, metric=metric, dissimilarity="precomputed")
 

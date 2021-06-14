@@ -27,7 +27,11 @@ class Inverter(ABC):
         pass
 
 
-class InverterType:
+class InverterFactory:
+    """
+    A factory class to create concrete inverter instances.
+    """
+
     @staticmethod
     def create(inverter_type):
         if inverter_type == Linear:

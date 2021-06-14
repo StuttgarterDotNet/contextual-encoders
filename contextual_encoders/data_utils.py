@@ -3,8 +3,20 @@ import numpy as np
 
 
 class DataUtils:
+    """
+    A helper class containing static functions for data handling.
+    """
+
     @staticmethod
     def ensure_pandas_dataframe(x):
+        """
+        Ensure that the given data is of pandas dataframe.
+        If not, the data will be converted.
+        Additionally, the names of the columns will be replaced by indices.
+
+        :param x: The data to check in either pandas dataframe, pandas series, numpy array or python list format.
+        :return: The pandas dataframe representing the data.
+        """
         if isinstance(x, pd.DataFrame):
             x_df = x.reindex(np.arange(len(x)))
             x_df.columns = np.arange(len(x_df.columns))
@@ -26,6 +38,12 @@ class DataUtils:
 
     @staticmethod
     def is_float(value):
+        """
+        Checks if the value is a float in python.
+
+        :param value: The value to check for.
+        :return: True, if the value is a python float, False if not.
+        """
         try:
             float(value)
             return True
@@ -34,6 +52,11 @@ class DataUtils:
 
     @staticmethod
     def get_non_float_columns(x):
+        """
+        Returns all columns indices that are not of float type.
+        :param x: The data to check for.
+        :return: A python lost of the indices of the columns that are not of float ype.
+        """
         x = DataUtils.ensure_pandas_dataframe(x)
         cols = []
         for col in x.columns:

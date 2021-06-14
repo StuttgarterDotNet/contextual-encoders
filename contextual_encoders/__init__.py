@@ -26,7 +26,7 @@ from contextual_encoders.gatherer import (
 )
 from contextual_encoders.inverter import (
     Inverter,
-    InverterType,
+    InverterFactory,
     LinearInverter,
     SqrtInverter,
     ExponentialInverter,
@@ -34,6 +34,6 @@ from contextual_encoders.inverter import (
 )
 from contextual_encoders.reducer import (
     Reducer,
-    ReducerType,
+    ReducerFactory,
     MultidimensionalScalingReducer,
 )
