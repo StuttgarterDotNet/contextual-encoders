@@ -3,14 +3,16 @@ ContextualEncoder
 ====================================
 The *ContextualEncoder* is the actual interface for using the Contextual Encoders library.
 It is used to perform the contextual encoding of a given dataset.
-Moreover, it inherits from the scikit-learn `BaseEstimator <https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html>`_
+Moreover, it inherits from the scikit-
+learn `BaseEstimator <https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html>`_
 and `TransformerMixin <https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html>`_
-types and thus enable being used in scikit-learn `Pipelines <https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html>`_.
+types and thus enable being used in scikit-
+learn `Pipelines <https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html>`_.
 
 Having a dataset :math:`X \\subset \\mathcal{F}`, with :math:`\\mathcal{F}` denoting the feature space,
 the *ContextualEncoder* can be seen as
 a map :math:`\\mathcal{E} : X \\subset \\mathcal{F} \\rightarrow  \\tilde{X} \\subset \\mathbb{R}^{m}`,
-with :math:`m \\in \mathbb{N}` being the (configurable) dimension of the encoding
+with :math:`m \\in \\mathbb{N}` being the (configurable) dimension of the encoding
 and :math:`\\tilde{X}` the encoded dataset as vectors.
 
 In other words, let :math:`n \\in \\mathbb{N}` be the amount of features.
@@ -19,8 +21,8 @@ or a mix of both and produces :math:`n` vectors of dimension :math:`m \\in \\mat
 
 .. note::
 
-    Additionally, a similarity matrix :math:`S \in \\mathbb{R}^{n \\times n}`
-    and dissimilarity matrix :math:`D \in \\mathbb{R}^{n \\times n}` will be calculated.
+    Additionally, a similarity matrix :math:`S \\in \\mathbb{R}^{n \\times n}`
+    and dissimilarity matrix :math:`D \\in \\mathbb{R}^{n \\times n}` will be calculated.
 
 .. note::
 
@@ -35,17 +37,18 @@ or a mix of both and produces :math:`n` vectors of dimension :math:`m \\in \\mat
     - Combine the form comparison values to an attribute comparison value using a :class:`.Gatherer`.
     - Combine the attribute comparison values to a feature comparison value using an :class:`.Aggregator`.
     - Use an :class:`.Inverter` to either get a similarity value from a dissimilarity value or visa verse.
-    - Collect all the feature comparison values and construct the similarity and dissimilarity matrix within the :class:`.MatrixComputer`.
+    - Collect all the feature comparison values and construct the similarity and dissimilarity
+      matrix within the :class:`.MatrixComputer`.
     - Convert the similarity or dissimilarity matrix to a set of vectors using a :class:`.Reducer`.
 """
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from .measure import Measure, SimilarityMeasure, DissimilarityMeasure
-from .aggregator import AggregatorFactory
+from .aggregator import AggregatorFactory, Aggregator
 from .computer import MatrixComputer
 from .gatherer import Gatherer, GathererFactory
 from .inverter import Inverter, InverterFactory
-from .reducer import ReducerFactory, SimilarityMatrixReducer
+from .reducer import ReducerFactory, SimilarityMatrixReducer, Reducer
 from .data_utils import DataUtils
 
 
@@ -103,7 +106,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
             See :class:`.ReducerFactory` for the names of the implemented *Reducers*.
         """
 
-        if isinstance(measures, Measure) or isinstance(measures, str):
+        if isinstance(measures, Measure):
             self.__measures = [measures]
         else:
             self.__measures = measures
@@ -111,32 +114,54 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         self.__separator_token = separator_token
 
         if isinstance(gatherers, Gatherer) or isinstance(gatherers, str):
-            self.__gatherers = [gatherers]
+            gatherers = [gatherers]
         else:
-            self.__gatherers = gatherers
+            gatherers = gatherers
 
-        for i in range(0, len(self.__gatherers)):
-            if isinstance(self.__gatherers[i], str):
-                self.__gatherers[i] = GathererFactory.create(self.__gatherers[i])
+        self.__gatherers = []
+        for i in range(0, len(gatherers)):
+            if isinstance(gatherers[i], str):
+                self.__gatherers.append(GathererFactory.create(gatherers[i]))
+            elif isinstance(gatherers[i], Gatherer):
+                self.__gatherers.append((gatherers[i]))
+            else:
+                raise ValueError(
+                    "The specified Gatherer is either not of type Gatherer or could not be found"
+                )
 
         if isinstance(aggregator, str):
             self.__aggregator = AggregatorFactory.create(aggregator)
-        else:
+        elif isinstance(aggregator, Aggregator):
             self.__aggregator = aggregator
+        else:
+            raise ValueError(
+                "The specified Aggregator is either not of type Aggregator or could not be found"
+            )
 
         if isinstance(inverters, Inverter) or isinstance(inverters, str):
-            self.__inverters = [inverters]
+            inverters = [inverters]
         else:
-            self.__inverters = inverters
+            inverters = inverters
 
-        for i in range(0, len(self.__inverters)):
-            if isinstance(self.__inverters[i], str):
-                self.__inverters[i] = InverterFactory.create(self.__inverters[i])
+        self.__inverters = []
+        for i in range(0, len(inverters)):
+            if isinstance(inverters[i], str):
+                self.__inverters.append(InverterFactory.create(inverters[i]))
+            elif isinstance(inverters[i], Inverter):
+                self.__inverters.append(inverters[i])
+            else:
+                raise ValueError(
+                    "The specified Inverter is either not of type Inverter or could not be found"
+                )
 
         if isinstance(reducer, str):
             self.__reducer = ReducerFactory.create(reducer)
-        else:
+        elif isinstance(reducer, Reducer):
             self.__reducer = reducer
+        else:
+            raise ValueError(
+                "The specified Reducer is either not of type Reducer or could not be found"
+            )
 
         self.__computer = []
         for i in range(0, len(self.__measures)):
