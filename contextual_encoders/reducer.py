@@ -10,22 +10,29 @@ and :math:`\\tilde{X}` the encoded dataset as vectors.
 In other words, let :math:`n \\in \\mathbb{N}` be the amount of features.
 A *Reducer* then takes the similarity or dissimilarity matrix :math:`D \\in \\mathbb{R}^{n \\times n}`
 and produces :math:`n` euclidean vectors of dimension :math:`m`.
+
+Currently, the following *Reducers* are implement:
+
+=========== ===========
+Name        Description
+----------- -----------
+mds         | Creates a low-dimensional representation of the data in which the distances respect well
+            | the distances in the original high-dimensional space.
+=========== ===========
 """
 
 from abc import ABC, abstractmethod
 from sklearn.manifold import MDS
 
-MultidimensionalScaling = "mds"
-
 
 class Reducer(ABC):
     """
-    The abstract base class for all reducers.
+    The abstract base class for all *Reducers*.
     """
 
     def __init__(self, n_components):
         """
-        Initializes the reducer.
+        Initializes the *Reducer*.
 
         :param n_components: The dimension of the output vectors.
         """
@@ -34,7 +41,7 @@ class Reducer(ABC):
     @abstractmethod
     def reduce(self, matrix):
         """
-        The abstract method that is implemented by concrete instances of reducers.
+        The abstract method that is implemented by concrete instances of *Reducers*.
 
         :param matrix: The similarity or dissimilarity matrix
             :math:`D \\in \\mathbb{R}^{n \\times n}` as 2D numpy array.
@@ -58,29 +65,21 @@ class DissimilarityMatrixReducer(Reducer, ABC):
 
 class ReducerFactory:
     """
-    The factory class for creating reducers.
+    The factory class for creating *Reducers* with default values.
     """
 
     @staticmethod
-    def create(reducer_type, **kwargs):
+    def create(reducer):
         """
-        Creates a concrete reducer instance given the name.
+        Creates a concrete *Reducer* instance given the name.
 
-        :param reducer_type: The name of the reducer. Currently, only the ``mds`` reducer is implemented.
-        :param kwargs:
-        :return:
+        :param reducer: The name of the *Reducer*, which can be ``mds``.
+        :return: The instance of the *Reducer*
         """
-        if "n_components" not in kwargs:
-            kwargs["n_components"] = 2
-        if "metric" not in kwargs:
-            kwargs["metric"] = True
-
-        if reducer_type == MultidimensionalScaling:
-            return MultidimensionalScalingReducer(
-                n_components=kwargs["n_components"], metric=kwargs["metric"]
-            )
+        if reducer == "mds":
+            return MultidimensionalScalingReducer()
         else:
-            raise ValueError(f"A reducer of type {reducer_type} does not exist.")
+            raise ValueError(f"A reducer of type {reducer} does not exist.")
 
 
 class MultidimensionalScalingReducer(DissimilarityMatrixReducer):
@@ -88,20 +87,34 @@ class MultidimensionalScalingReducer(DissimilarityMatrixReducer):
     A reducer using the
     `Multidimensional Scaling <https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html>`_
     approach (MDS) from scikit-learn.
+    It can be used with the ``mds`` option.
     """
 
-    def __init__(self, n_components, metric):
+    def __init__(self, n_components=2, metric=True):
         """
         Initializes the *MultidimensionalScalingReducer*.
 
         :param n_components: The dimension of the output vectors.
-        :param metric:
+        :param metric: If ``True``, perform metric MDS; otherwise, perform nonmetric MDS.
         """
         super().__init__(n_components)
         self.__mds = MDS(n_components, metric=metric, dissimilarity="precomputed")
 
-    def reduce(self, matrix):
-        return self.__mds.fit_transform(matrix)
+    def reduce(self, dissimilarity_matrix):
+        """
+        Reduces the given dissimilarity matrix using the MDS approach.
+
+        :param dissimilarity_matrix: The dissimilarity matrix as 2D numpy array.
+        :return: Encoded vectors as 2D numpy array of size :math:`n \\times m`,
+            with :math:`n` being the amount of features
+            and :math:`m` the dimension of the vectors, i.e. ``n_components``.
+        """
+        return self.__mds.fit_transform(dissimilarity_matrix)
 
     def get_stress(self):
+        """
+        Gets the stress level for the performed MDS.
+
+        :return: The stress level of the MDS.
+        """
         return self.__mds.stress_

@@ -45,7 +45,7 @@ from .aggregator import AggregatorFactory
 from .computer import MatrixComputer
 from .gatherer import Gatherer, GathererFactory
 from .inverter import Inverter, InverterFactory
-from .reducer import ReducerFactory, MultidimensionalScaling, SimilarityMatrixReducer
+from .reducer import ReducerFactory, SimilarityMatrixReducer
 from .data_utils import DataUtils
 
 
@@ -61,7 +61,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         gatherers="smm",
         aggregator="mean",
         inverters="sqrt",
-        reducer=MultidimensionalScaling,
+        reducer="mds",
     ):
         """
         Initializes the *ContextualEncoder*.
