@@ -12,6 +12,11 @@ The documentation can be found here: [ReadTheDocs](https://contextual-encoders.r
 
 This package uses Poetry ([documentation](https://python-poetry.org/docs/)).
 
+## Installation
+The library can be installed with `pip`
+
+> pip install contextual-encoders
+
 ## What are contextual variables?
 Contextual variables are numerical or categorical variables, that underlie a certain context or relationship.
 Examples are the days of the week, that have a hidden graph structure:

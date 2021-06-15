@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "contextual-encoders"
-version = "0.1.0"
+version = "0.1.1"
 description = "A library of sklearn compatible contextual categorical variable encoders"
 authors = ["Daniel Fink"]
 keywords = ["data-science", "machine-learning", "scikit-learn"]
