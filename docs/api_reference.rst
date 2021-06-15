@@ -10,39 +10,47 @@ This is the API Reference of the Python library `Contextual Encoders <https://gi
 .. automodule:: contextual_encoders.aggregator
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.computer
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.context
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.encoder
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.gatherer
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.inverter
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.measure
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__
 
 .. automodule:: contextual_encoders.reducer
    :members:
    :show-inheritance:
+   :private-members:
    :special-members: __init__

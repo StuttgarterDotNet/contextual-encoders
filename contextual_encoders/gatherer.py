@@ -10,7 +10,7 @@ Each feature consists of :math:`k` attributes and each attribute can have up to 
 A form of an attribute of the feature :math:`x` can then be denoted as :math:`x_{a,i}`,
 with :math:`a` being the attribute and :math:`i` being the form.
 For simplicity, we just denote it as :math:`\\tilde{x}_i` and skip the attribute index.
-A *Measure* is then defined as :math:`\\mathcal{M} : (\\tilde{x}_i, \\tilde{y}_j) \\rightarrow \mathbb{R}`, i.e.
+A *Measure* is then defined as :math:`\\mathcal{M} : (\\tilde{x}_i, \\tilde{y}_j) \\rightarrow [0,1]`, i.e.
 it maps a similarity or dissimilarity value to each attribute form.
 
 The *Gatherer* uses the *Measure* together with all the attribute forms and calculates a single attribute
