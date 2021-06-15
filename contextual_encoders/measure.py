@@ -31,6 +31,7 @@ class Measure(ABC):
     """
     The abstract base class for all implementations of *Measures*.
     """
+
     def __init__(self, symmetric, multiple_values):
         """
         Initializes the *Measure*.
@@ -181,6 +182,7 @@ class SimilarityMeasure(Measure, ABC):
     """
     An abstract base class for calculating similarity values.
     """
+
     def __init__(self, symmetric, multiple_values):
         """
         Initializes the *Similarity Measure*.
@@ -193,15 +195,14 @@ class SimilarityMeasure(Measure, ABC):
             the property is set to ``False``, a list with all attribute forms will be given
             as input.
         """
-        super().__init__(
-            symmetric=symmetric, multiple_values=multiple_values
-        )
+        super().__init__(symmetric=symmetric, multiple_values=multiple_values)
 
 
 class DissimilarityMeasure(Measure, ABC):
     """
     An abstract base class for calculating dissimilarity values.
     """
+
     def __init__(self, symmetric, multiple_values):
         """
         Initializes the *Dissimilarity Measure*.
@@ -214,15 +215,14 @@ class DissimilarityMeasure(Measure, ABC):
             the property is set to ``False``, a list with all attribute forms will be given
             as input.
         """
-        super().__init__(
-            symmetric=symmetric, multiple_values=multiple_values
-        )
+        super().__init__(symmetric=symmetric, multiple_values=multiple_values)
 
 
 class WuPalmer(SimilarityMeasure):
     """
     A tree based similarity measure based on the Wu-Palmer Similarity Measure.
     """
+
     def __init__(self, context, offset=0.0):
         """
         Initializes the *WuPalmer Similarity Measure*.
@@ -296,6 +296,7 @@ class PathLengthMeasure(SimilarityMeasure):
     """
     A *SimilarityMeasure* based on counting the path length between two concepts.
     """
+
     def __init__(self, context):
         """
         Initializes the *PathLengthMeasure*.

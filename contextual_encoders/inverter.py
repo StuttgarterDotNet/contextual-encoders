@@ -30,6 +30,7 @@ class Inverter(ABC):
     """
     An abstract base class for all concrete *Inverter* implementations.
     """
+
     @abstractmethod
     def similarity_to_dissimilarity(self, similarity_matrix):
         """
@@ -80,6 +81,7 @@ class LinearInverter(Inverter):
     An *Inverter* that converts a similarity matrix to a dissimilarity matrix and vice versa using a linear ansatz.
     It can be used as the ``lin`` option.
     """
+
     def similarity_to_dissimilarity(self, similarity_matrix):
         """
         Converts the given similarity matrix to a dissimilarity matrix accordingly
@@ -108,6 +110,7 @@ class SqrtInverter(Inverter):
     An *Inverter* that converts a similarity matrix to a dissimilarity matrix and vice versa using a sqrt ansatz.
     It can be used as the ``sqrt`` option.
     """
+
     def similarity_to_dissimilarity(self, similarity_matrix):
         """
         Converts the given similarity matrix to a dissimilarity matrix accordingly
@@ -137,6 +140,7 @@ class ExponentialInverter(Inverter):
     and vice versa using an exponential ansatz.
     It can be used as the ``exp`` option.
     """
+
     def similarity_to_dissimilarity(self, similarity_matrix):
         """
         Converts the given similarity matrix to a dissimilarity matrix accordingly
@@ -166,6 +170,7 @@ class CosineInverter(Inverter):
     and vice versa using a cosine ansatz.
     It can be used as the ``cos`` option.
     """
+
     def similarity_to_dissimilarity(self, similarity_matrix):
         """
         Converts the given similarity matrix to a dissimilarity matrix accordingly
