@@ -44,7 +44,7 @@ from .measure import Measure, SimilarityMeasure, DissimilarityMeasure
 from .aggregator import AggregatorFactory
 from .computer import MatrixComputer
 from .gatherer import Gatherer, GathererFactory
-from .inverter import Inverter, InverterFactory, Sqrt
+from .inverter import Inverter, InverterFactory
 from .reducer import ReducerFactory, MultidimensionalScaling, SimilarityMatrixReducer
 from .data_utils import DataUtils
 
@@ -60,7 +60,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         separator_token=",",
         gatherers="smm",
         aggregator="mean",
-        inverters=Sqrt,
+        inverters="sqrt",
         reducer=MultidimensionalScaling,
     ):
         """
