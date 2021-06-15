@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# noinspection DuplicatedCode
 def readme_example():
 
     # Create a sample dataset
@@ -33,7 +34,7 @@ def readme_example():
     encoder = ContextualEncoder(day_measure)
     encoded_data = encoder.transform(x)
 
-    print_data_points(encoded_data, "Day")
+    print_data_points(encoded_data)
 
     print_matrix(encoder.get_similarity_matrix(), "Similarity Matrix")
     print_matrix(encoder.get_dissimilarity_matrix(), "Dissimilarity Matrix")
@@ -41,6 +42,7 @@ def readme_example():
     return
 
 
+# noinspection DuplicatedCode
 def simple_example():
 
     # Load the tips dataset
@@ -69,7 +71,7 @@ def simple_example():
     encoder = ContextualEncoder(day_measure, inverters="sqrt")
     encoded_data = encoder.transform(subset)
 
-    print_data_points(encoded_data, "Day")
+    print_data_points(encoded_data)
 
     print_matrix(encoder.get_similarity_matrix(), "Similarities")
     print_matrix(encoder.get_dissimilarity_matrix(), "Dissimilarity")
@@ -77,6 +79,7 @@ def simple_example():
     return
 
 
+# noinspection DuplicatedCode
 def advanced_example():
 
     # Load the tips dataset
@@ -122,7 +125,7 @@ def advanced_example():
     )
     encoded_data = encoder.transform(subset)
 
-    print_data_points(encoded_data, "Tips")
+    print_data_points(encoded_data)
     print_matrix(encoder.get_similarity_matrix(), "Similarity")
     print_matrix(encoder.get_dissimilarity_matrix(), "Dissimilarity")
 
@@ -142,7 +145,7 @@ def print_matrix(matrix, title):
     plt.show()
 
 
-def print_data_points(data_points, title):
+def print_data_points(data_points):
     # colors = np.random.rand(len(data_points))
     colors = np.ones(len(data_points))
 
