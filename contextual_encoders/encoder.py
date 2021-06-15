@@ -43,7 +43,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from .measure import Measure, SimilarityMeasure, DissimilarityMeasure
 from .aggregator import AggregatorFactory
 from .computer import MatrixComputer
-from .gatherer import Gatherer, SymMaxMean, GathererFactory
+from .gatherer import Gatherer, GathererFactory
 from .inverter import Inverter, InverterFactory, Sqrt
 from .reducer import ReducerFactory, MultidimensionalScaling, SimilarityMatrixReducer
 from .data_utils import DataUtils
@@ -58,7 +58,7 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
         self,
         measures,
         separator_token=",",
-        gatherers=SymMaxMean,
+        gatherers="smm",
         aggregator="mean",
         inverters=Sqrt,
         reducer=MultidimensionalScaling,
