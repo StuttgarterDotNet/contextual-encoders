@@ -4,7 +4,7 @@ Reducer
 A *Reducer* transforms a similarity or dissimilarity matrix into a set of vectors.
 Mathematically, it can be seen as
 a map :math:`\\mathcal{R} : D \\in \\mathbb{R}^{n \\times n} \\rightarrow  \\tilde{X} \\subset \\mathbb{R}^{m}`,
-with :math:`m \\in \mathbb{N}` being the (configurable) dimension of the encoding
+with :math:`m \\in \\mathbb{N}` being the (configurable) dimension of the encoding
 and :math:`\\tilde{X}` the encoded dataset as vectors.
 
 In other words, let :math:`n \\in \\mathbb{N}` be the amount of features.
@@ -95,7 +95,7 @@ class MultidimensionalScalingReducer(DissimilarityMatrixReducer):
         Initializes the *MultidimensionalScalingReducer*.
 
         :param n_components: The dimension of the output vectors.
-        :param metric: If ``True``, perform metric MDS; otherwise, perform nonmetric MDS.
+        :param metric: If ``True``, perform metric MDS; otherwise, perform non-metric MDS.
         """
         super().__init__(n_components)
         self.__mds = MDS(n_components, metric=metric, dissimilarity="precomputed")

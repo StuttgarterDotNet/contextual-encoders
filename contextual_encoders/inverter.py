@@ -13,7 +13,7 @@ Name        Formula
 lin         :math:`\\mathcal{I} (s) = 1 - s`
 sqrt        :math:`\\mathcal{I} (s) = \\sqrt{1 - s}`
 exp         :math:`\\mathcal{I} (s) = 2 - e^{ln(2) \\cdot s}`
-cos         :math:`\\mathcal{I} (s) = cos(\\frac{\\pi}{2} \cdot s)`
+cos         :math:`\\mathcal{I} (s) = cos(\\frac{\\pi}{2} \\cdot s)`
 =========== ===========
 
 .. note::
