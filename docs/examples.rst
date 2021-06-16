@@ -97,7 +97,7 @@ The matrices are visualized below:
 .. |dissim| image:: https://github.com/StuttgarterDotNet/contextual-encoders/blob/main/docs/_static/readme_example_dissimilarity_matrix.png?raw=true
     :width: 49%
 
-Multiple Attribute
+Multiple Attributes
 +++++++++++++++++++++++++++++++++++++++++++++++
 
 The Contextual-Encoders library also allow to encode multiple attributes, i.e. multiple columns at once.
@@ -222,8 +222,58 @@ in the :class:`.ContextualEncoder`. In the following, we use the :class:`.SymMax
     encoder = ContextualEncoder([day_measure, job_measure], gatherers="smm")
     encoded_data = encoder.transform(x)
 
-
-Define your own Modules
+Using Module Parameters
 +++++++++++++++++++++++++++++++++++++++++++++++
 
-The Contextual-Encoders library is design for an easy extension.
+All modules such as *Inverters* and *Reducers* have parameters. One example is the
+parameter ``n_components`` of any :class:`.Reducer` type. It specifies the dimension
+of the data points when converting a similarity or dissimilarity matrix to vectors.
+Parameters are always set within the ``__init__`` function of the module.
+In the following, we use the :class:`.MultidimensionalScalingReducer` and set the
+``n_components`` parameter to 1 (instead of 2, which is the default):
+
+.. code:: python
+
+    from contextual_encoders import MultidimensionalScalingReducer
+
+    ...
+
+    # Perform the encoding
+    encoder = ContextualEncoder(
+        [day_measure, job_measure],
+        reducer=MultidimensionalScalingReducer(n_components=1)
+    )
+    encoded_data = encoder.transform(x)
+
+Defining own Modules
++++++++++++++++++++++++++++++++++++++++++++++++
+
+The Contextual-Encoders library is designed to allow an easy extension.
+This is needed, because the context can change from dataset to dataset.
+The following types serve as base classes and every derived class of them
+can be used to initialize the :class:`.ContextualEncoder` with custom behaviour.
+
+- :class:`.Aggregator`: Used to combine similarity and dissimilarity matrices of multiple attributes to a single one.
+- :class:`.Context`: Defines a general context type.
+- :class:`.GraphBasedContext`: A context optimized for storing graphs.
+- :class:`.Gatherer`: Used for combining form comparison values to an attribute comparison value.
+- :class:`.Inverter`: Calculates similarity values given dissimilarity values and vice versa.
+- :class:`.SimilarityMeasure`: Defines a general measure for calculating similarity comparison values based on a context.
+- :class:`.DissimilarityMeasure`: Defines a general measure for calculating dissimilarity comparison values based on a context.
+- :class:`.SimilarityMatrixReducer`: Used for converting similarity matrices to data points.
+- :class:`.DissimilarityMatrixReducer`: Used for converting dissimilarity matrices to data points.
+
+Given we have implemented custom types of these base classes, we can use them as follows:
+
+.. code:: python
+
+    # Perform the encoding
+    encoder = ContextualEncoder(
+        [day_measure, job_measure],
+        gatherers=[MyGatherer1, MyGatherer2],
+        aggregator=MyAggregator,
+        inverters=[MyInverter1, MyInverter2],
+        reducer=MyReducer)
+
+    encoded_data = encoder.transform(x)
+
