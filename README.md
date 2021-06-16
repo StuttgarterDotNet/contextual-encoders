@@ -70,7 +70,7 @@ day_measure = PathLengthMeasure(day)
 # Step 3+4: Calculate (Dis-) similarity Matrix
 #           and map to euclidean vectors
 encoder = ContextualEncoder(day_measure)
-encoded_data = encoder.fit_transform(x)
+encoded_data = encoder.transform(x)
 
 similarity_matrix = encoder.get_similarity_matrix()
 dissimilarity_matrix = encoder.get_dissimilarity_matrix()
