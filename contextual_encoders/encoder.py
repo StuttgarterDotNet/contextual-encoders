@@ -119,11 +119,15 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
             gatherers = gatherers
 
         self.__gatherers = []
-        for i in range(0, len(gatherers)):
-            if isinstance(gatherers[i], str):
-                self.__gatherers.append(GathererFactory.create(gatherers[i]))
-            elif isinstance(gatherers[i], Gatherer):
-                self.__gatherers.append((gatherers[i]))
+        for i in range(0, len(measures)):
+            if i >= len(gatherers):
+                temp_gatherer = gatherers[0]
+            else:
+                temp_gatherer = gatherers[i]
+            if isinstance(temp_gatherer, str):
+                self.__gatherers.append(GathererFactory.create(temp_gatherer))
+            elif isinstance(temp_gatherer, Gatherer):
+                self.__gatherers.append(temp_gatherer)
             else:
                 raise ValueError(
                     "The specified Gatherer is either not of type Gatherer or could not be found"
@@ -144,11 +148,15 @@ class ContextualEncoder(BaseEstimator, TransformerMixin):
             inverters = inverters
 
         self.__inverters = []
-        for i in range(0, len(inverters)):
-            if isinstance(inverters[i], str):
-                self.__inverters.append(InverterFactory.create(inverters[i]))
-            elif isinstance(inverters[i], Inverter):
-                self.__inverters.append(inverters[i])
+        for i in range(0, len(measures)):
+            if i >= len(inverters):
+                temp_inverter = inverters[0]
+            else:
+                temp_inverter = inverters[i]
+            if isinstance(temp_inverter, str):
+                self.__inverters.append(InverterFactory.create(temp_inverter))
+            elif isinstance(temp_inverter, Inverter):
+                self.__inverters.append(temp_inverter)
             else:
                 raise ValueError(
                     "The specified Inverter is either not of type Inverter or could not be found"
