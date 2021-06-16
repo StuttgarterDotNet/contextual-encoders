@@ -4,7 +4,8 @@ from contextual_encoders import (
     WuPalmer,
     ContextualEncoder,
     GraphContext,
-    PathLengthMeasure, MultidimensionalScalingReducer,
+    PathLengthMeasure,
+    MultidimensionalScalingReducer,
 )
 import matplotlib.pyplot as plt
 import numpy as np
@@ -55,7 +56,7 @@ def multiple_attributes_example():
             ["Wed", "Student"],
             ["Tue", "Student"],
             ["Fri", "Education"],
-            ["Fri", "Teacher,Pilot"]
+            ["Fri", "Teacher,Pilot"],
         ]
     )
 
@@ -84,7 +85,9 @@ def multiple_attributes_example():
 
     # Step 3+4: Calculate Dissimilarity Matrix
     #           and map to euclidean vectors
-    encoder = ContextualEncoder([day_measure, job_measure], reducer=MultidimensionalScalingReducer(n_components=1))
+    encoder = ContextualEncoder(
+        [day_measure, job_measure], reducer=MultidimensionalScalingReducer(n_components=1)
+    )
     encoded_data = encoder.transform(x)
 
     print_data_points(encoded_data)
